@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">燃力8周</string>
+
+    <!-- 底部导航 -->
+    <string name="nav_home">首页</string>
+    <string name="nav_training">训练</string>
+    <string name="nav_diet">饮食</string>
+    <string name="nav_data">数据</string>
+    <string name="nav_profile">我的</string>
+
+    <!-- 首页 -->
+    <string name="home_today_task">今日任务</string>
+    <string name="home_data_overview">数据概览</string>
+    <string name="home_check_in">打卡</string>
+    <string name="home_weight">体重</string>
+    <string name="home_body_fat">体脂率</string>
+    <string name="home_water">饮水量</string>
+    <string name="home_sleep">睡眠</string>
+    <string name="home_training_completed">训练完成</string>
+    <string name="home_diet_completed">饮食达标</string>
+
+    <!-- 训练模块 -->
+    <string name="training_title">训练计划</string>
+    <string name="training_week">第%d周</string>
+    <string name="training_day">第%d天</string>
+    <string name="training_type_strength">力量训练</string>
+    <string name="training_type_cardio">有氧运动</string>
+    <string name="training_type_hiit">HIIT训练</string>
+    <string name="training_type_rest">休息日</string>
+    <string name="training_type_yoga">瑜伽拉伸</string>
+    <string name="training_start">开始训练</string>
+    <string name="training_pause">暂停</string>
+    <string name="training_resume">继续</string>
+    <string name="training_complete">完成训练</string>
+    <string name="training_timer">计时器</string>
+    <string name="training_rest">休息</string>
+    <string name="training_next_exercise">下一个动作</string>
+
+    <!-- 饮食模块 -->
+    <string name="diet_title">饮食计划</string>
+    <string name="diet_breakfast">早餐</string>
+    <string name="diet_lunch">午餐</string>
+    <string name="diet_dinner">晚餐</string>
+    <string name="diet_snack">加餐</string>
+    <string name="diet_calories">热量</string>
+    <string name="diet_protein">蛋白质</string>
+    <string name="diet_carbs">碳水</string>
+    <string name="diet_fat">脂肪</string>
+    <string name="diet_record">记录饮食</string>
+    <string name="diet_photo">拍照记录</string>
+    <string name="diet_text">文字记录</string>
+
+    <!-- 数据模块 -->
+    <string name="data_title">数据统计</string>
+    <string name="data_weight_trend">体重趋势</string>
+    <string name="data_body_fat_trend">体脂趋势</string>
+    <string name="data_training_stats">训练统计</string>
+    <string name="data_weekly_report">周报告</string>
+    <string name="data_monthly_report">月报告</string>
+    <string name="data_export">导出数据</string>
+
+    <!-- 成就系统 -->
+    <string name="achievement_title">成就</string>
+    <string name="achievement_unlocked">解锁成就</string>
+    <string name="achievement_locked">未解锁</string>
+    <string name="achievement_progress">进度</string>
+    <string name="achievement_points">积分</string>
+
+    <!-- 通用 -->
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="complete">完成</string>
+    <string name="skip">跳过</string>
+    <string name="retry">重试</string>
+    <string name="loading">加载中…</string>
+    <string name="error">错误</string>
+    <string name="success">成功</string>
+    <string name="warning">警告</string>
+    <string name="info">提示</string>
+
+    <!-- 单位 -->
+    <string name="unit_kg">斤</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_ml">ml</string>
+    <string name="unit_hour">小时</string>
+    <string name="unit_minute">分钟</string>
+    <string name="unit_second">秒</string>
+    <string name="unit_kcal">kcal</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_times">次</string>
+    <string name="unit_sets">组</string>
+
+    <!-- 提醒 -->
+    <string name="reminder_training">该训练了！</string>
+    <string name="reminder_water">记得喝水哦</string>
+    <string name="reminder_sleep">该休息了</string>
+    <string name="reminder_check_in">别忘了今日打卡</string>
+
+    <!-- 心情状态 -->
+    <string name="mood_very_bad">很糟糕</string>
+    <string name="mood_bad">不太好</string>
+    <string name="mood_normal">一般</string>
+    <string name="mood_good">不错</string>
+    <string name="mood_excellent">很棒</string>
+</resources>

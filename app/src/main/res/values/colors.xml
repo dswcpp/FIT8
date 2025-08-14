@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基础颜色 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- 燃力8周主题配色 -->
+    <!-- 主色：活力橙 -->
+    <color name="primary">#FF6B35</color>
+    <color name="primary_dark">#E55A2B</color>
+    <color name="primary_light">#FF8A5B</color>
+    <color name="primary_variant">#FF7F50</color>
+
+    <!-- 辅色：清新绿 -->
+    <color name="secondary">#27AE60</color>
+    <color name="secondary_dark">#229954</color>
+    <color name="secondary_light">#2ECC71</color>
+    <color name="secondary_variant">#58D68D</color>
+
+    <!-- 背景色系 -->
+    <color name="background">#F7F8FA</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F5F5F5</color>
+
+    <!-- 文字颜色 -->
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="on_background">#1C1C1E</color>
+    <color name="on_surface">#1C1C1E</color>
+    <color name="on_surface_variant">#6C6C70</color>
+
+    <!-- 功能色 -->
+    <color name="error">#FF3B30</color>
+    <color name="error_dark">#D70015</color>
+    <color name="success">#34C759</color>
+    <color name="warning">#FF9500</color>
+    <color name="info">#007AFF</color>
+
+    <!-- 灰度色系 -->
+    <color name="gray_50">#FAFAFA</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_300">#E0E0E0</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_500">#9E9E9E</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_700">#616161</color>
+    <color name="gray_800">#424242</color>
+    <color name="gray_900">#212121</color>
+
+    <!-- 透明度变体 -->
+    <color name="primary_alpha_10">#1AFF6B35</color>
+    <color name="primary_alpha_20">#33FF6B35</color>
+    <color name="primary_alpha_50">#80FF6B35</color>
+    <color name="secondary_alpha_10">#1A27AE60</color>
+    <color name="secondary_alpha_20">#3327AE60</color>
+    <color name="secondary_alpha_50">#8027AE60</color>
+
+    <!-- 卡片阴影 -->
+    <color name="shadow_light">#0D000000</color>
+    <color name="shadow_medium">#1A000000</color>
+
+    <!-- 分割线 -->
+    <color name="divider">#E5E5E7</color>
+    <color name="divider_dark">#D1D1D6</color>
+</resources>

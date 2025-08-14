@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/margin_horizontal">
+
+        <!-- 顶部问候和日期 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_lg"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="早上好！"
+                android:textColor="@color/on_background"
+                android:textSize="@dimen/text_size_title"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_md"
+                tools:text="08月14日 星期三" />
+
+        </LinearLayout>
+
+        <!-- 今日任务卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_today_task"
+            style="@style/Fit8.Card"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_card_height"
+            android:layout_marginBottom="@dimen/spacing_lg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/home_today_task"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_sm" />
+
+                    <TextView
+                        android:id="@+id/tv_task_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textColor="@color/on_surface"
+                        android:textSize="@dimen/text_size_lg"
+                        android:textStyle="bold"
+                        tools:text="HIIT训练" />
+
+                    <TextView
+                        android:id="@+id/tv_task_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_sm"
+                        tools:text="全身燃脂训练" />
+
+                    <TextView
+                        android:id="@+id/tv_task_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textColor="@color/primary"
+                        android:textSize="@dimen/text_size_sm"
+                        android:textStyle="bold"
+                        tools:text="35分钟" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="@dimen/icon_size_xl"
+                    android:layout_height="@dimen/icon_size_xl"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_training"
+                    android:tint="@color/primary" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 数据概览标题 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:text="@string/home_data_overview"
+            android:textColor="@color/on_background"
+            android:textSize="@dimen/text_size_lg"
+            android:textStyle="bold" />
+
+        <!-- 数据卡片网格 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_lg"
+            android:orientation="vertical">
+
+            <!-- 第一行：体重和体脂率 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_weight"
+                    style="@style/Fit8.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/data_overview_height"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_weight"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_xs" />
+
+                        <TextView
+                            android:id="@+id/tv_weight_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_lg"
+                            android:textStyle="bold"
+                            tools:text="178.8斤" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_body_fat"
+                    style="@style/Fit8.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/data_overview_height"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_body_fat"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_xs" />
+
+                        <TextView
+                            android:id="@+id/tv_body_fat_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_lg"
+                            android:textStyle="bold"
+                            tools:text="24.1%" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- 第二行：饮水和睡眠 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_water"
+                    style="@style/Fit8.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/data_overview_height"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_water"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_xs" />
+
+                        <TextView
+                            android:id="@+id/tv_water_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_lg"
+                            android:textStyle="bold"
+                            tools:text="2500ml" />
+
+                        <ProgressBar
+                            android:id="@+id/progress_water"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/progress_height"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:max="100"
+                            android:progress="80"
+                            android:progressTint="@color/secondary" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card_sleep"
+                    style="@style/Fit8.Card"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/data_overview_height"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/padding_md">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/home_sleep"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_xs" />
+
+                        <TextView
+                            android:id="@+id/tv_sleep_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_lg"
+                            android:textStyle="bold"
+                            tools:text="7.5小时" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 训练和饮食状态 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xl"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_training_completed"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+                <TextView
+                    android:id="@+id/tv_training_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_md"
+                    android:textStyle="bold"
+                    tools:text="已完成 35分钟" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/home_diet_completed"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+                <TextView
+                    android:id="@+id/tv_diet_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/text_size_md"
+                    android:textStyle="bold"
+                    tools:text="已达标" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 统计信息 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xl"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_consecutive_days"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_xxl"
+                    android:textStyle="bold"
+                    tools:text="7天" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:text="连续打卡"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_total_workouts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/text_size_xxl"
+                    android:textStyle="bold"
+                    tools:text="15次" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:text="总训练次数"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 打卡按钮 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_check_in"
+            style="@style/Fit8.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:text="@string/home_check_in"
+            android:textSize="@dimen/text_size_xl" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

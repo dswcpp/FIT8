@@ -1,0 +1,108 @@
+<resources>
+    <string name="app_name">Fit8 Weeks</string>
+    
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_training">Training</string>
+    <string name="nav_diet">Diet</string>
+    <string name="nav_data">Data</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Home -->
+    <string name="home_today_task">Today\'s Task</string>
+    <string name="home_data_overview">Data Overview</string>
+    <string name="home_check_in">Check In</string>
+    <string name="home_weight">Weight</string>
+    <string name="home_body_fat">Body Fat</string>
+    <string name="home_water">Water Intake</string>
+    <string name="home_sleep">Sleep</string>
+    <string name="home_training_completed">Training Completed</string>
+    <string name="home_diet_completed">Diet On Track</string>
+    
+    <!-- Training Module -->
+    <string name="training_title">Training Plan</string>
+    <string name="training_week">Week %d</string>
+    <string name="training_day">Day %d</string>
+    <string name="training_type_strength">Strength Training</string>
+    <string name="training_type_cardio">Cardio</string>
+    <string name="training_type_hiit">HIIT Training</string>
+    <string name="training_type_rest">Rest Day</string>
+    <string name="training_type_yoga">Yoga &amp; Stretching</string>
+    <string name="training_start">Start Training</string>
+    <string name="training_pause">Pause</string>
+    <string name="training_resume">Resume</string>
+    <string name="training_complete">Complete Training</string>
+    <string name="training_timer">Timer</string>
+    <string name="training_rest">Rest</string>
+    <string name="training_next_exercise">Next Exercise</string>
+    
+    <!-- Diet Module -->
+    <string name="diet_title">Diet Plan</string>
+    <string name="diet_breakfast">Breakfast</string>
+    <string name="diet_lunch">Lunch</string>
+    <string name="diet_dinner">Dinner</string>
+    <string name="diet_snack">Snack</string>
+    <string name="diet_calories">Calories</string>
+    <string name="diet_protein">Protein</string>
+    <string name="diet_carbs">Carbs</string>
+    <string name="diet_fat">Fat</string>
+    <string name="diet_record">Record Diet</string>
+    <string name="diet_photo">Photo Record</string>
+    <string name="diet_text">Text Record</string>
+    
+    <!-- Data Module -->
+    <string name="data_title">Data Statistics</string>
+    <string name="data_weight_trend">Weight Trend</string>
+    <string name="data_body_fat_trend">Body Fat Trend</string>
+    <string name="data_training_stats">Training Stats</string>
+    <string name="data_weekly_report">Weekly Report</string>
+    <string name="data_monthly_report">Monthly Report</string>
+    <string name="data_export">Export Data</string>
+    
+    <!-- Achievement System -->
+    <string name="achievement_title">Achievements</string>
+    <string name="achievement_unlocked">Achievement Unlocked</string>
+    <string name="achievement_locked">Locked</string>
+    <string name="achievement_progress">Progress</string>
+    <string name="achievement_points">Points</string>
+    
+    <!-- Common -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="complete">Complete</string>
+    <string name="skip">Skip</string>
+    <string name="retry">Retry</string>
+    <string name="loading">Loading…</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="warning">Warning</string>
+    <string name="info">Info</string>
+    
+    <!-- Units -->
+    <string name="unit_kg">kg</string>
+    <string name="unit_percent">%</string>
+    <string name="unit_ml">ml</string>
+    <string name="unit_hour">hour</string>
+    <string name="unit_minute">min</string>
+    <string name="unit_second">sec</string>
+    <string name="unit_kcal">kcal</string>
+    <string name="unit_gram">g</string>
+    <string name="unit_times">times</string>
+    <string name="unit_sets">sets</string>
+    
+    <!-- Reminders -->
+    <string name="reminder_training">Time to train!</string>
+    <string name="reminder_water">Remember to drink water</string>
+    <string name="reminder_sleep">Time to rest</string>
+    <string name="reminder_check_in">Don\'t forget to check in today</string>
+    
+    <!-- Mood States -->
+    <string name="mood_very_bad">Very Bad</string>
+    <string name="mood_bad">Bad</string>
+    <string name="mood_normal">Normal</string>
+    <string name="mood_good">Good</string>
+    <string name="mood_excellent">Excellent</string>
+</resources>
