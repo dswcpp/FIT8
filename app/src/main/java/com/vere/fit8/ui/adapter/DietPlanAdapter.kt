@@ -12,7 +12,8 @@ import com.vere.fit8.databinding.ItemDietPlanBinding
  * 饮食计划适配器
  */
 class DietPlanAdapter(
-    private val onItemClick: (DietPlan) -> Unit
+    private val onItemClick: (DietPlan) -> Unit,
+    private val onCheckInClick: (DietPlan) -> Unit
 ) : ListAdapter<DietPlan, DietPlanAdapter.DietPlanViewHolder>(DietPlanDiffCallback()) {
     
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DietPlanViewHolder {
@@ -58,6 +59,11 @@ class DietPlanAdapter(
                 
                 root.setOnClickListener {
                     onItemClick(dietPlan)
+                }
+
+                // 打卡按钮点击事件
+                btnCheckIn.setOnClickListener {
+                    onCheckInClick(dietPlan)
                 }
             }
         }

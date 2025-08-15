@@ -1,12 +1,12 @@
 <resources>
-    <string name="app_name">燃力8周</string>
+    <string name="app_name">Fit8</string>
 
     <!-- 底部导航 -->
     <string name="nav_home">首页</string>
     <string name="nav_training">训练</string>
     <string name="nav_diet">饮食</string>
     <string name="nav_data">数据</string>
-    <string name="nav_profile">我的</string>
+    <string name="nav_profile">个人</string>
 
     <!-- 首页 -->
     <string name="home_today_task">今日任务</string>

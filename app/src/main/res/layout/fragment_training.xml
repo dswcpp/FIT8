@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 顶部日期导航 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/surface"
+            android:elevation="@dimen/toolbar_elevation"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_previous_day"
+                android:layout_width="@dimen/icon_size_md"
+                android:layout_height="@dimen/icon_size_md"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_chevron_left"
+                android:tint="@color/on_surface" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface"
+                    android:textSize="@dimen/text_size_lg"
+                    android:textStyle="bold"
+                    tools:text="08月14日 星期三" />
+
+                <TextView
+                    android:id="@+id/tv_week_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm"
+                    tools:text="第1周 · 第3天" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btn_next_day"
+                android:layout_width="@dimen/icon_size_md"
+                android:layout_height="@dimen/icon_size_md"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_chevron_right"
+                android:tint="@color/on_surface" />
+
+        </LinearLayout>
+
+        <!-- 训练计划卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Fit8.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding">
+
+                <!-- 训练类型和时长 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_training_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/on_surface"
+                        android:textSize="@dimen/text_size_title"
+                        android:textStyle="bold"
+                        tools:text="HIIT全身训练" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_estimated_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/primary"
+                            android:textSize="@dimen/text_size_lg"
+                            android:textStyle="bold"
+                            tools:text="35分钟" />
+
+                        <TextView
+                            android:id="@+id/tv_estimated_calories"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:textColor="@color/secondary"
+                            android:textSize="@dimen/text_size_sm"
+                            tools:text="280kcal" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- 训练描述 -->
+                <TextView
+                    android:id="@+id/tv_training_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_md"
+                    tools:text="高强度间歇训练，提高心肺功能，快速燃脂" />
+
+                <!-- 训练提示 -->
+                <TextView
+                    android:id="@+id/tv_training_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:background="@drawable/bg_tips"
+                    android:paddingHorizontal="@dimen/spacing_sm"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:textColor="@color/warning"
+                    android:textSize="@dimen/text_size_sm"
+                    tools:text="💡 训练前请充分热身，注意动作标准" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 计时器区域 -->
+        <LinearLayout
+            android:id="@+id/layout_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                tools:text="05:32"
+                tools:visibility="visible" />
+
+            <!-- 当前动作信息 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_current_exercise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface"
+                    android:textSize="@dimen/text_size_xl"
+                    android:textStyle="bold"
+                    tools:text="俯卧撑" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_current_sets"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_md"
+                        tools:text="第2/3组" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/spacing_sm"
+                        android:text="·"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_md" />
+
+                    <TextView
+                        android:id="@+id/tv_current_reps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_md"
+                        tools:text="12次" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 动作计数器区域 -->
+        <LinearLayout
+            android:id="@+id/layout_rep_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动作计数"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_md" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_current_rep_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_sm"
+                    android:text="/"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/tv_target_rep_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="24sp"
+                    android:text="12" />
+
+            </LinearLayout>
+
+            <!-- 计数按钮 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_decrease_rep"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="@dimen/spacing_lg"
+                    android:text="-"
+                    android:textSize="24sp"
+                    app:cornerRadius="30dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_increase_rep"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:text="+"
+                    android:textSize="32sp"
+                    app:cornerRadius="40dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 动作计时器区域 -->
+        <LinearLayout
+            android:id="@+id/layout_exercise_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动作计时"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_md" />
+
+            <TextView
+                android:id="@+id/tv_exercise_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textColor="@color/secondary"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:text="00:00" />
+
+            <ProgressBar
+                android:id="@+id/progress_exercise_timer"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="8dp"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="@color/secondary" />
+
+        </LinearLayout>
+
+        <!-- 休息计时器 -->
+        <LinearLayout
+            android:id="@+id/layout_rest_timer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:background="@drawable/bg_rest_timer"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_lg"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_rest_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondary"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                tools:text="休息时间" />
+
+            <TextView
+                android:id="@+id/tv_rest_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textColor="@color/secondary"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                tools:text="00:30" />
+
+        </LinearLayout>
+
+        <!-- 训练控制按钮 -->
+        <LinearLayout
+            android:id="@+id/layout_training_controls"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_skip_exercise"
+                style="@style/Fit8.Button.Outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="跳过" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_pause_training"
+                style="@style/Fit8.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="暂停" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_resume_training"
+                style="@style/Fit8.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="继续"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_next_exercise"
+                style="@style/Fit8.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:text="完成" />
+
+        </LinearLayout>
+
+        <!-- 开始训练按钮 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_training"
+            style="@style/Fit8.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_large"
+            android:layout_margin="@dimen/margin_horizontal"
+            android:text="@string/training_start"
+            android:textSize="@dimen/text_size_xl" />
+
+        <!-- 完成训练按钮 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_complete_training"
+            style="@style/Fit8.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/training_complete"
+            android:visibility="gone" />
+
+        <!-- 动作列表 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:layout_marginBottom="@dimen/spacing_md"
+            android:text="训练动作"
+            android:textColor="@color/on_background"
+            android:textSize="@dimen/text_size_lg"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_exercises"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/margin_horizontal"
+            android:paddingBottom="@dimen/spacing_xxl"
+            tools:listitem="@layout/item_exercise" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

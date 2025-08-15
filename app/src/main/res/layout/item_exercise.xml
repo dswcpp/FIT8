@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Fit8.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_sm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/card_padding">
+
+        <!-- 动作图标/图片 -->
+        <ImageView
+            android:id="@+id/iv_exercise_icon"
+            android:layout_width="@dimen/icon_size_xl"
+            android:layout_height="@dimen/icon_size_xl"
+            android:layout_marginEnd="@dimen/spacing_md"
+            android:background="@drawable/bg_exercise_icon"
+            android:padding="@dimen/spacing_sm"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_training"
+            android:tint="@color/primary" />
+
+        <!-- 动作信息 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- 动作名称 -->
+            <TextView
+                android:id="@+id/tv_exercise_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/on_surface"
+                android:textSize="@dimen/text_size_lg"
+                android:textStyle="bold"
+                tools:text="俯卧撑" />
+
+            <!-- 动作参数 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_sets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm"
+                    tools:text="3组" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_sm"
+                    android:text="×"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+                <TextView
+                    android:id="@+id/tv_reps"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm"
+                    tools:text="12次" />
+
+                <TextView
+                    android:id="@+id/tv_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm"
+                    android:visibility="gone"
+                    tools:text="40秒"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <!-- 休息时间 -->
+            <TextView
+                android:id="@+id/tv_rest_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textColor="@color/secondary"
+                android:textSize="@dimen/text_size_xs"
+                tools:text="组间休息 30秒" />
+
+            <!-- 目标肌群 -->
+            <TextView
+                android:id="@+id/tv_target_muscles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_xs"
+                tools:text="目标：胸肌、三头肌、核心" />
+
+            <!-- 动作要点 -->
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xs"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_xs"
+                android:textStyle="italic"
+                android:visibility="gone"
+                tools:text="保持身体一条直线，下降至胸部接近地面"
+                tools:visibility="visible" />
+
+            <!-- 完成进度 -->
+            <LinearLayout
+                android:id="@+id/layout_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_progress_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_sm"
+                    android:textStyle="bold"
+                    tools:text="进度: 2/3组完成" />
+
+                <ProgressBar
+                    android:id="@+id/progress_exercise"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:max="100"
+                    android:progress="67"
+                    android:progressTint="@color/primary" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 右侧操作区域 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- 难度等级 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_difficulty_1"
+                    android:layout_width="@dimen/icon_size_xs"
+                    android:layout_height="@dimen/icon_size_xs"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/warning" />
+
+                <ImageView
+                    android:id="@+id/iv_difficulty_2"
+                    android:layout_width="@dimen/icon_size_xs"
+                    android:layout_height="@dimen/icon_size_xs"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/warning" />
+
+                <ImageView
+                    android:id="@+id/iv_difficulty_3"
+                    android:layout_width="@dimen/icon_size_xs"
+                    android:layout_height="@dimen/icon_size_xs"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/gray_300" />
+
+                <ImageView
+                    android:id="@+id/iv_difficulty_4"
+                    android:layout_width="@dimen/icon_size_xs"
+                    android:layout_height="@dimen/icon_size_xs"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/gray_300" />
+
+                <ImageView
+                    android:id="@+id/iv_difficulty_5"
+                    android:layout_width="@dimen/icon_size_xs"
+                    android:layout_height="@dimen/icon_size_xs"
+                    android:src="@drawable/ic_star"
+                    android:tint="@color/gray_300" />
+
+            </LinearLayout>
+
+            <!-- 完成状态 -->
+            <ImageView
+                android:id="@+id/iv_completion_status"
+                android:layout_width="@dimen/icon_size_md"
+                android:layout_height="@dimen/icon_size_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:background="@drawable/bg_completion_status"
+                android:padding="@dimen/spacing_xs"
+                android:src="@drawable/ic_check"
+                android:tint="@color/success"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <!-- 详情按钮 -->
+            <ImageButton
+                android:id="@+id/btn_exercise_detail"
+                android:layout_width="@dimen/icon_size_md"
+                android:layout_height="@dimen/icon_size_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_info"
+                android:tint="@color/on_surface_variant" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

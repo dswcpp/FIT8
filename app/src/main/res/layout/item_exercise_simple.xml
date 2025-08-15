@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="@dimen/spacing_md">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="•"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/text_size_body"
+        android:fontFamily="sans-serif"
+        android:layout_marginEnd="@dimen/spacing_md" />
+
+    <TextView
+        android:id="@+id/tv_exercise_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="俯卧撑"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size_body"
+        android:fontFamily="sans-serif"
+        tools:text="俯卧撑" />
+
+    <TextView
+        android:id="@+id/tv_exercise_sets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3组 x 15次"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/text_size_caption"
+        android:fontFamily="sans-serif"
+        tools:text="3组 x 15次" />
+
+</LinearLayout>

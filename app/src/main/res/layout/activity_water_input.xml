@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        android:elevation="0dp"
+        app:title="记录饮水"
+        app:titleTextColor="@color/text_primary"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_xl">
+
+            <!-- Today's Water Display -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/spacing_xxl">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日饮水量"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="@dimen/spacing_sm" />
+
+                <TextView
+                    android:id="@+id/tv_current_water"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_display_large"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="1500" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ml"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_title"
+                    android:fontFamily="sans-serif" />
+
+                <!-- Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/progress_water"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="200dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="@dimen/spacing_lg"
+                    android:max="2000"
+                    android:progress="0"
+                    android:progressTint="@color/primary"
+                    android:progressBackgroundTint="@color/gray_200" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="目标: 2000ml"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_caption"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginTop="@dimen/spacing_sm" />
+
+            </LinearLayout>
+
+            <!-- Quick Add Buttons -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快速添加"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_body_large"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="@dimen/spacing_md" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/spacing_xl">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_250"
+                    style="@style/Fit8.Button.Outline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:text="250ml" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_500"
+                    style="@style/Fit8.Button.Outline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/spacing_sm"
+                    android:text="500ml" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_add_1000"
+                    style="@style/Fit8.Button.Outline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:text="1000ml" />
+
+            </LinearLayout>
+
+            <!-- Custom Amount Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_water"
+                style="@style/Fit8.TextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:hint="自定义饮水量 (ml)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_water"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:textSize="@dimen/text_size_body_large"
+                    android:fontFamily="sans-serif" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Add Custom Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_add_custom"
+                style="@style/Fit8.Button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/button_height_large"
+                android:text="添加记录"
+                android:textSize="@dimen/text_size_body_large"
+                android:layout_marginBottom="@dimen/spacing_xl" />
+
+            <!-- Today's Records -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日记录"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_body_large"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="@dimen/spacing_md" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_water_records"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_water_record" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

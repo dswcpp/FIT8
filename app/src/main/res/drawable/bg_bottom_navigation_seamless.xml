@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 主背景层 - 纯色背景，无缝衔接 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/surface" />
+        </shape>
+    </item>
+
+    <!-- 顶部分割线 -->
+    <item android:top="0dp" android:bottom="79dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/outline_variant_light" />
+        </shape>
+    </item>
+
+    <!-- 顶部微妙阴影渐变 -->
+    <item android:top="1dp" android:bottom="76dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="90"
+                android:startColor="@color/shadow_color"
+                android:centerColor="@color/shadow_color_light"
+                android:endColor="@android:color/transparent"
+                android:type="linear" />
+        </shape>
+    </item>
+
+</layer-list>

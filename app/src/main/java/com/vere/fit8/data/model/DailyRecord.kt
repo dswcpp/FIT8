@@ -37,10 +37,26 @@ data class DailyRecord(
  */
 data class TrainingExercise(
     val name: String,           // 动作名称
-    val sets: Int = 0,          // 组数
-    val reps: Int = 0,          // 次数
-    val durationSec: Int = 0,   // 持续时间（秒）
-    val completed: Boolean = false // 是否完成
+    val targetSets: Int = 0,    // 目标组数
+    val targetReps: Int = 0,    // 目标次数
+    val targetDurationSec: Int = 0, // 目标持续时间（秒）
+    val completedSets: Int = 0, // 已完成组数
+    val setRecords: List<SetRecord> = emptyList(), // 每组的详细记录
+    val completed: Boolean = false, // 是否完全完成
+    val startTime: Long? = null,    // 开始时间
+    val endTime: Long? = null       // 结束时间
+)
+
+/**
+ * 单组训练记录
+ */
+data class SetRecord(
+    val setNumber: Int,         // 第几组
+    val actualReps: Int = 0,    // 实际完成次数
+    val actualDurationSec: Int = 0, // 实际持续时间
+    val restDurationSec: Int = 0,   // 实际休息时间
+    val completed: Boolean = false, // 本组是否完成
+    val timestamp: Long = System.currentTimeMillis() // 完成时间
 )
 
 /**

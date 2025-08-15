@@ -1,12 +1,19 @@
 package com.vere.fit8.ui.fragment
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.vere.fit8.MainActivity
+import com.vere.fit8.R
 import com.vere.fit8.databinding.FragmentHomeBinding
 import com.vere.fit8.ui.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,27 +59,31 @@ class HomeFragment : Fragment() {
         
         // 设置点击事件
         binding.btnCheckIn.setOnClickListener {
-            showCheckInDialog()
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.TodayTaskActivity::class.java))
         }
         
         binding.cardTodayTask.setOnClickListener {
-            // 跳转到训练页面
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.TodayTaskActivity::class.java))
         }
-        
+
         binding.cardWeight.setOnClickListener {
-            showWeightInputDialog()
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.WeightInputActivity::class.java))
         }
-        
-        binding.cardBodyFat.setOnClickListener {
-            showBodyFatInputDialog()
-        }
-        
+
+        // 移除不存在的cardCalories点击事件
+
         binding.cardWater.setOnClickListener {
-            showWaterInputDialog()
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.WaterInputActivity::class.java))
         }
-        
-        binding.cardSleep.setOnClickListener {
-            showSleepInputDialog()
+
+        binding.cardWorkout.setOnClickListener {
+            // 跳转到训练页面
+            (activity as? MainActivity)?.switchToTab(1)
+        }
+
+        binding.cardDiet.setOnClickListener {
+            // 跳转到饮食页面
+            (activity as? MainActivity)?.switchToTab(2)
         }
     }
     
@@ -101,49 +112,19 @@ class HomeFragment : Fragment() {
     }
     
     private fun updateUI(record: com.vere.fit8.data.model.DailyRecord?) {
-        record?.let {
-            // 更新体重
-            binding.tvWeightValue.text = if (it.weight != null) {
-                "${it.weight} 斤"
-            } else {
-                "未记录"
-            }
-            
-            // 更新体脂率
-            binding.tvBodyFatValue.text = if (it.bodyFat != null) {
-                "${it.bodyFat}%"
-            } else {
-                "未记录"
-            }
-            
-            // 更新饮水量
-            binding.tvWaterValue.text = "${it.waterMl} ml"
-            binding.progressWater.progress = (it.waterMl / 25f).toInt() // 目标2500ml
-            
-            // 更新睡眠
-            binding.tvSleepValue.text = if (it.sleepHours > 0) {
-                "${it.sleepHours} 小时"
-            } else {
-                "未记录"
-            }
-            
-            // 更新训练状态
-            binding.tvTrainingStatus.text = if (it.trainingDurationMin > 0) {
-                "已完成 ${it.trainingDurationMin}分钟"
-            } else {
-                "未完成"
-            }
-            
-            // 更新饮食状态
-            binding.tvDietStatus.text = if (it.dietOk) "已达标" else "未达标"
-        }
+        // DailyRecord不包含统计数据，这些数据需要从UserStats获取
+        // 暂时留空，等待添加UserStats的观察
     }
     
     private fun updateTodayTask(plan: com.vere.fit8.data.model.WeeklyPlan?) {
-        plan?.let {
-            binding.tvTaskTitle.text = it.trainingType
-            binding.tvTaskDescription.text = it.description
-            binding.tvTaskDuration.text = "${it.estimatedDurationMin}分钟"
+        if (plan != null) {
+            binding.tvTaskTitle.text = plan.trainingType
+            binding.tvTaskDescription.text = plan.description
+            binding.tvTaskDuration.text = "${plan.estimatedDurationMin}分钟"
+        } else {
+            binding.tvTaskTitle.text = "休息日"
+            binding.tvTaskDescription.text = "今天是休息日，好好放松一下吧！"
+            binding.tvTaskDuration.text = "0分钟"
         }
     }
     
@@ -154,27 +135,18 @@ class HomeFragment : Fragment() {
         }
     }
     
-    private fun showCheckInDialog() {
-        // 显示打卡对话框
-        // 这里可以实现一个完整的打卡界面
-    }
+    // 打卡功能已移至今日任务页面
     
-    private fun showWeightInputDialog() {
-        // 显示体重输入对话框
-    }
+    // 体重输入功能已移至专门页面
     
-    private fun showBodyFatInputDialog() {
-        // 显示体脂率输入对话框
-    }
+    // 体脂率和饮水输入功能已移至专门页面
     
-    private fun showWaterInputDialog() {
-        // 显示饮水量输入对话框
-    }
-    
-    private fun showSleepInputDialog() {
-        // 显示睡眠时长输入对话框
-    }
-    
+    // 睡眠记录功能已移至专门页面
+
+    // 今日任务功能已移至专门页面
+
+    // 所有对话框功能已移至专门页面
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

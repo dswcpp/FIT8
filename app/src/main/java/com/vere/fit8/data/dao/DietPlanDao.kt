@@ -21,7 +21,13 @@ interface DietPlanDao {
     
     @Query("SELECT * FROM diet_plans WHERE week = :week AND mealType = :mealType")
     suspend fun getDietPlansByWeekAndMeal(week: Int, mealType: String): List<DietPlan>
-    
+
+    @Query("SELECT * FROM diet_plans WHERE week = :week AND dayOfWeek = :dayOfWeek ORDER BY CASE mealType WHEN 'BREAKFAST' THEN 1 WHEN 'SNACK' THEN 2 WHEN 'LUNCH' THEN 3 WHEN 'DINNER' THEN 4 END")
+    suspend fun getDietPlansByWeekAndDay(week: Int, dayOfWeek: Int): List<DietPlan>
+
+    @Query("SELECT * FROM diet_plans WHERE week = :week AND dayOfWeek = :dayOfWeek ORDER BY CASE mealType WHEN 'BREAKFAST' THEN 1 WHEN 'SNACK' THEN 2 WHEN 'LUNCH' THEN 3 WHEN 'DINNER' THEN 4 END")
+    fun getDietPlansByWeekAndDayFlow(week: Int, dayOfWeek: Int): Flow<List<DietPlan>>
+
     @Query("SELECT * FROM diet_plans WHERE id = :id")
     suspend fun getDietPlanById(id: String): DietPlan?
     

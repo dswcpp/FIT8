@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingVertical="@dimen/spacing_md"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="09:30"
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/text_size_body"
+        android:fontFamily="sans-serif"
+        android:layout_marginEnd="@dimen/spacing_lg"
+        tools:text="09:30" />
+
+    <TextView
+        android:id="@+id/tv_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="250ml"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_size_body"
+        android:fontFamily="sans-serif"
+        tools:text="250ml" />
+
+    <TextView
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="删除"
+        android:textColor="@color/error"
+        android:textSize="@dimen/text_size_caption"
+        android:fontFamily="sans-serif"
+        android:padding="@dimen/spacing_sm"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>

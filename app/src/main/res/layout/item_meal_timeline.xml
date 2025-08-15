@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="@dimen/spacing_sm">
+
+    <!-- 时间线区域 -->
+    <LinearLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- 时间线上半部分 -->
+        <View
+            android:id="@+id/view_timeline_top"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/outline_variant" />
+
+        <!-- 时间线节点 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <!-- 时间显示 -->
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xs"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/text_size_sm"
+                android:textStyle="bold"
+                tools:text="08:30" />
+
+            <!-- 时间线圆点 -->
+            <View
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/bg_timeline_dot" />
+
+        </LinearLayout>
+
+        <!-- 时间线下半部分 -->
+        <View
+            android:id="@+id/view_timeline_bottom"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/outline_variant" />
+
+    </LinearLayout>
+
+    <!-- 内容区域 -->
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Fit8.Card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/spacing_md"
+        app:cardElevation="@dimen/elevation_xs">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/card_padding">
+
+            <!-- 头部信息 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- 记录类型图标 -->
+                <ImageView
+                    android:id="@+id/iv_record_type"
+                    android:layout_width="@dimen/icon_size_sm"
+                    android:layout_height="@dimen/icon_size_sm"
+                    android:layout_marginEnd="@dimen/spacing_sm"
+                    android:src="@drawable/ic_edit"
+                    android:tint="@color/on_surface_variant" />
+
+                <!-- 餐次标签 -->
+                <TextView
+                    android:id="@+id/tv_meal_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_meal_type_tag"
+                    android:paddingHorizontal="@dimen/spacing_sm"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_xs"
+                    android:textStyle="bold"
+                    tools:text="早餐" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <!-- 删除按钮 -->
+                <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="@dimen/icon_size_sm"
+                    android:layout_height="@dimen/icon_size_sm"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_delete"
+                    android:tint="@color/error_alpha_60" />
+
+            </LinearLayout>
+
+            <!-- 食物信息 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- 食物名称 -->
+                    <TextView
+                        android:id="@+id/tv_food_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/on_surface"
+                        android:textSize="@dimen/text_size_md"
+                        android:textStyle="bold"
+                        tools:text="苹果" />
+
+                    <!-- 分量 -->
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:textColor="@color/on_surface_variant"
+                        android:textSize="@dimen/text_size_sm"
+                        tools:text="1个 (约150g)" />
+
+                </LinearLayout>
+
+                <!-- 热量信息 -->
+                <TextView
+                    android:id="@+id/tv_calories"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_calories_tag"
+                    android:paddingHorizontal="@dimen/spacing_sm"
+                    android:paddingVertical="@dimen/spacing_xs"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_sm"
+                    android:textStyle="bold"
+                    tools:text="78 kcal" />
+
+            </LinearLayout>
+
+            <!-- 营养信息 -->
+            <TextView
+                android:id="@+id/tv_nutrition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_xs"
+                tools:text="蛋白质 0.3g  碳水 20.6g  脂肪 0.2g" />
+
+            <!-- 备注信息 -->
+            <TextView
+                android:id="@+id/tv_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:background="@drawable/bg_notes"
+                android:paddingHorizontal="@dimen/spacing_sm"
+                android:paddingVertical="@dimen/spacing_xs"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_xs"
+                android:visibility="gone"
+                tools:text="餐前水果，补充维生素"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

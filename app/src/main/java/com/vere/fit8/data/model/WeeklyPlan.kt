@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.vere.fit8.data.converter.Converters
+import java.io.Serializable
 
 /**
  * 8周训练计划数据模型
@@ -27,6 +28,7 @@ data class WeeklyPlan(
  * 动作模板数据模型
  */
 data class ExerciseTemplate(
+    val id: Long = 0,           // 动作ID
     val name: String,           // 动作名称
     val nameEn: String = "",    // 英文名称
     val sets: Int,              // 建议组数
@@ -40,7 +42,7 @@ data class ExerciseTemplate(
     val difficulty: Int = 1,    // 难度等级（1-5）
     val targetMuscles: List<String> = emptyList(), // 目标肌群
     val equipment: String = "无器械" // 所需器械
-)
+) : Serializable
 
 /**
  * 饮食计划数据模型
@@ -50,6 +52,7 @@ data class DietPlan(
     @PrimaryKey
     val id: String,             // 计划ID
     val week: Int,              // 第几周
+    val dayOfWeek: Int,         // 周几（1=周一, 7=周日）
     val mealType: String,       // 餐次类型：早餐/午餐/晚餐/加餐
     val foodName: String,       // 食物名称
     val amount: String,         // 分量（如：100g）

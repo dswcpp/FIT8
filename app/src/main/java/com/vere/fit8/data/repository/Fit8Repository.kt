@@ -18,7 +18,8 @@ class Fit8Repository @Inject constructor(
     private val dietPlanDao: DietPlanDao,
     private val mealRecordDao: MealRecordDao,
     private val achievementDao: AchievementDao,
-    private val userStatsDao: UserStatsDao
+    private val userStatsDao: UserStatsDao,
+    private val appSettingsDao: com.vere.fit8.data.dao.AppSettingsDao
 ) {
     
     // ==================== 每日记录相关 ====================
@@ -29,9 +30,12 @@ class Fit8Repository @Inject constructor(
     
     fun getDailyRecordFlow(date: LocalDate): Flow<DailyRecord?> = dailyRecordDao.getRecordByDateFlow(date)
     
+    suspend fun getDailyRecords(startDate: LocalDate, endDate: LocalDate): List<DailyRecord> =
+        dailyRecordDao.getRecordsBetweenDates(startDate, endDate)
+
     suspend fun getWeeklyRecords(startDate: LocalDate, endDate: LocalDate): List<DailyRecord> =
         dailyRecordDao.getRecordsBetweenDates(startDate, endDate)
-    
+
     fun getWeeklyRecordsFlow(startDate: LocalDate, endDate: LocalDate): Flow<List<DailyRecord>> =
         dailyRecordDao.getRecordsBetweenDatesFlow(startDate, endDate)
     
@@ -73,7 +77,61 @@ class Fit8Repository @Inject constructor(
     suspend fun saveWeeklyPlan(plan: WeeklyPlan) = weeklyPlanDao.insertPlan(plan)
     
     suspend fun saveWeeklyPlans(plans: List<WeeklyPlan>) = weeklyPlanDao.insertPlans(plans)
-    
+
+    // ==================== 训练记录相关 ====================
+
+    suspend fun saveTrainingRecord(date: LocalDate, exerciseName: String, setRecord: SetRecord) {
+        val dailyRecord = getDailyRecord(date) ?: createEmptyDailyRecord(date)
+        val updatedTrainingList = dailyRecord.trainingList.toMutableList()
+
+        // 查找对应的训练动作
+        val exerciseIndex = updatedTrainingList.indexOfFirst { it.name == exerciseName }
+        if (exerciseIndex >= 0) {
+            // 更新现有动作记录
+            val exercise = updatedTrainingList[exerciseIndex]
+            val updatedSetRecords = exercise.setRecords.toMutableList()
+
+            // 添加或更新组记录
+            val setIndex = updatedSetRecords.indexOfFirst { it.setNumber == setRecord.setNumber }
+            if (setIndex >= 0) {
+                updatedSetRecords[setIndex] = setRecord
+            } else {
+                updatedSetRecords.add(setRecord)
+            }
+
+            // 更新动作记录
+            val updatedExercise = exercise.copy(
+                completedSets = updatedSetRecords.count { it.completed },
+                setRecords = updatedSetRecords,
+                completed = updatedSetRecords.size >= exercise.targetSets && updatedSetRecords.all { it.completed }
+            )
+            updatedTrainingList[exerciseIndex] = updatedExercise
+        } else {
+            // 创建新的动作记录
+            val newExercise = TrainingExercise(
+                name = exerciseName,
+                targetSets = 3, // 默认值，实际应该从训练计划获取
+                completedSets = if (setRecord.completed) 1 else 0,
+                setRecords = listOf(setRecord),
+                completed = false
+            )
+            updatedTrainingList.add(newExercise)
+        }
+
+        // 保存更新后的记录
+        val updatedDailyRecord = dailyRecord.copy(trainingList = updatedTrainingList)
+        saveDailyRecord(updatedDailyRecord)
+    }
+
+    suspend fun getExerciseProgress(date: LocalDate, exerciseName: String): TrainingExercise? {
+        val dailyRecord = getDailyRecord(date)
+        return dailyRecord?.trainingList?.find { it.name == exerciseName }
+    }
+
+    private fun createEmptyDailyRecord(date: LocalDate): DailyRecord {
+        return DailyRecord(date = date)
+    }
+
     // ==================== 饮食计划相关 ====================
     
     fun getAllDietPlans(): Flow<List<DietPlan>> = dietPlanDao.getAllDietPlans()
@@ -84,7 +142,13 @@ class Fit8Repository @Inject constructor(
     
     suspend fun getDietPlansByMeal(week: Int, mealType: String): List<DietPlan> =
         dietPlanDao.getDietPlansByWeekAndMeal(week, mealType)
-    
+
+    suspend fun getDietPlansByDay(week: Int, dayOfWeek: Int): List<DietPlan> =
+        dietPlanDao.getDietPlansByWeekAndDay(week, dayOfWeek)
+
+    fun getDietPlansByDayFlow(week: Int, dayOfWeek: Int): Flow<List<DietPlan>> =
+        dietPlanDao.getDietPlansByWeekAndDayFlow(week, dayOfWeek)
+
     suspend fun saveDietPlan(dietPlan: DietPlan) = dietPlanDao.insertDietPlan(dietPlan)
     
     suspend fun saveDietPlans(dietPlans: List<DietPlan>) = dietPlanDao.insertDietPlans(dietPlans)
@@ -121,13 +185,13 @@ class Fit8Repository @Inject constructor(
     fun getAllAchievements(): Flow<List<Achievement>> = achievementDao.getAllAchievements()
     
     suspend fun getUnlockedAchievements(): List<Achievement> = achievementDao.getUnlockedAchievements()
-    
+
     suspend fun getLockedAchievements(): List<Achievement> = achievementDao.getLockedAchievements()
-    
+
     suspend fun saveAchievement(achievement: Achievement) = achievementDao.insertAchievement(achievement)
-    
+
     suspend fun saveAchievements(achievements: List<Achievement>) = achievementDao.insertAchievements(achievements)
-    
+
     suspend fun updateAchievement(achievement: Achievement) = achievementDao.updateAchievement(achievement)
     
     // ==================== 用户统计相关 ====================
@@ -147,6 +211,63 @@ class Fit8Repository @Inject constructor(
     suspend fun updateConsecutiveDays(days: Int) = userStatsDao.updateConsecutiveDays(days)
     
     suspend fun addCaloriesBurned(calories: Int) = userStatsDao.addCaloriesBurned(calories)
-    
-    suspend fun addPoints(points: Int) = userStatsDao.addPoints(points)
+
+    suspend fun addPoints(points: Int) {
+        val stats = getUserStats()
+        if (stats != null) {
+            val updatedStats = stats.copy(totalPoints = stats.totalPoints + points)
+            userStatsDao.updateUserStats(updatedStats)
+        }
+    }
+
+    // ==================== 应用设置相关 ====================
+
+    suspend fun getAppSettings(): com.vere.fit8.data.model.AppSettings? = appSettingsDao.getSettings()
+
+    fun getAppSettingsFlow(): kotlinx.coroutines.flow.Flow<com.vere.fit8.data.model.AppSettings?> = appSettingsDao.getSettingsFlow()
+
+    suspend fun saveAppSettings(settings: com.vere.fit8.data.model.AppSettings) = appSettingsDao.insertSettings(settings)
+
+    suspend fun updateAppSettings(settings: com.vere.fit8.data.model.AppSettings) = appSettingsDao.updateSettings(settings)
+
+    // 通知设置
+    suspend fun updateTrainingReminderEnabled(enabled: Boolean) = appSettingsDao.updateTrainingReminderEnabled(enabled)
+
+    suspend fun updateTrainingReminderTime(time: String) = appSettingsDao.updateTrainingReminderTime(time)
+
+    suspend fun updateWaterReminderEnabled(enabled: Boolean) = appSettingsDao.updateWaterReminderEnabled(enabled)
+
+    suspend fun updateWaterReminderInterval(interval: Int) = appSettingsDao.updateWaterReminderInterval(interval)
+
+    suspend fun updateSleepReminderEnabled(enabled: Boolean) = appSettingsDao.updateSleepReminderEnabled(enabled)
+
+    suspend fun updateSleepReminderTime(time: String) = appSettingsDao.updateSleepReminderTime(time)
+
+    // 应用设置
+    suspend fun updateDarkModeEnabled(enabled: Boolean) = appSettingsDao.updateDarkModeEnabled(enabled)
+
+    suspend fun updateLanguage(language: String) = appSettingsDao.updateLanguage(language)
+
+    suspend fun updateAutoSyncEnabled(enabled: Boolean) = appSettingsDao.updateAutoSyncEnabled(enabled)
+
+    // 用户信息
+    suspend fun updateUserName(name: String) = appSettingsDao.updateUserName(name)
+
+    suspend fun updateUserHeight(height: Float) = appSettingsDao.updateUserHeight(height)
+
+    suspend fun updateUserGender(gender: String) = appSettingsDao.updateUserGender(gender)
+
+    suspend fun updateUserAge(age: Int) = appSettingsDao.updateUserAge(age)
+
+    suspend fun updateUserGoal(goal: String) = appSettingsDao.updateUserGoal(goal)
+
+    // 数据管理
+    suspend fun resetAllUserData() {
+        // 清除所有用户数据，但保留设置
+        dailyRecordDao.deleteAllRecords()
+        mealRecordDao.deleteAllMealRecords()
+        // 重置用户统计
+        val defaultStats = com.vere.fit8.data.model.UserStats()
+        userStatsDao.insertUserStats(defaultStats)
+    }
 }

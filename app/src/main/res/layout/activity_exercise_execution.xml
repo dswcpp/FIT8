@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- 顶部工具栏 -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/surface"
+        android:elevation="@dimen/toolbar_elevation"
+        app:navigationIcon="@drawable/ic_chevron_left"
+        app:title="训练执行"
+        app:titleTextColor="@color/on_surface" />
+
+    <!-- 动作信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_lg">
+
+        <TextView
+            android:id="@+id/tv_exercise_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/on_surface"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            tools:text="俯卧撑" />
+
+        <TextView
+            android:id="@+id/tv_exercise_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textColor="@color/on_surface_variant"
+            android:textSize="@dimen/text_size_md"
+            tools:text="第1/3组 · 12次" />
+
+    </LinearLayout>
+
+    <!-- 主要内容区域 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- 计数界面 -->
+        <LinearLayout
+            android:id="@+id/layout_counting"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_counting_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动作计数"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_lg" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_current_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primary"
+                    android:textSize="72sp"
+                    android:textStyle="bold"
+                    android:text="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/spacing_md"
+                    android:text="/"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/tv_target_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="36sp"
+                    android:text="12" />
+
+            </LinearLayout>
+
+            <!-- 单位显示 -->
+            <TextView
+                android:id="@+id/tv_count_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_md"
+                android:text="个"
+                tools:text="个" />
+
+            <!-- 计数按钮 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xxl"
+                android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_minus"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="@dimen/spacing_xl"
+                    android:text="-"
+                    android:textSize="32sp"
+                    app:cornerRadius="40dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_plus"
+                    style="@style/Widget.Material3.Button"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:text="+"
+                    android:textSize="48sp"
+                    app:cornerRadius="60dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 计时界面 -->
+        <LinearLayout
+            android:id="@+id/layout_timing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="动作计时"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_lg" />
+
+            <TextView
+                android:id="@+id/tv_timer_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:textColor="@color/secondary"
+                android:textSize="72sp"
+                android:textStyle="bold"
+                android:text="00:00" />
+
+            <ProgressBar
+                android:id="@+id/progress_timer"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="300dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="@dimen/spacing_xl"
+                android:max="100"
+                android:progress="0"
+                android:progressTint="@color/secondary" />
+
+            <TextView
+                android:id="@+id/tv_target_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="@dimen/text_size_md"
+                tools:text="目标: 40秒" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- 底部控制按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_lg">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_skip_set"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_md"
+            android:layout_weight="1"
+            android:text="跳过本组" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_complete_set"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="完成本组" />
+
+    </LinearLayout>
+
+</LinearLayout>

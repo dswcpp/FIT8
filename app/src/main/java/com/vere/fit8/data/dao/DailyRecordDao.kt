@@ -22,7 +22,7 @@ interface DailyRecordDao {
     
     @Query("SELECT * FROM daily_records WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
     suspend fun getRecordsBetweenDates(startDate: LocalDate, endDate: LocalDate): List<DailyRecord>
-    
+
     @Query("SELECT * FROM daily_records WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
     fun getRecordsBetweenDatesFlow(startDate: LocalDate, endDate: LocalDate): Flow<List<DailyRecord>>
     
@@ -61,4 +61,10 @@ interface DailyRecordDao {
     
     @Query("DELETE FROM daily_records")
     suspend fun deleteAllRecords()
+
+    @Query("SELECT AVG(weight) FROM daily_records WHERE date BETWEEN :startDate AND :endDate AND weight IS NOT NULL")
+    suspend fun getAverageWeightBetweenDates(startDate: LocalDate, endDate: LocalDate): Float?
+
+    @Query("SELECT AVG(bodyFat) FROM daily_records WHERE date BETWEEN :startDate AND :endDate AND bodyFat IS NOT NULL")
+    suspend fun getAverageBodyFatBetweenDates(startDate: LocalDate, endDate: LocalDate): Float?
 }

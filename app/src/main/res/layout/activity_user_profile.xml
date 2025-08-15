@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- 工具栏 -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/surface"
+        android:elevation="@dimen/elevation_sm"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="个人信息"
+        app:titleTextColor="@color/on_surface" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_horizontal">
+
+            <!-- 头像区域 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="@dimen/spacing_xl">
+
+                <ImageView
+                    android:layout_width="@dimen/avatar_size_xl"
+                    android:layout_height="@dimen/avatar_size_xl"
+                    android:background="@drawable/bg_avatar"
+                    android:padding="@dimen/spacing_lg"
+                    android:src="@drawable/ic_profile"
+                    android:tint="@color/primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="点击更换头像"
+                    android:textColor="@color/on_surface_variant"
+                    android:textSize="@dimen/text_size_sm" />
+
+            </LinearLayout>
+
+            <!-- 个人信息表单 -->
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Fit8.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_lg">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/card_padding">
+
+                    <!-- 姓名 -->
+                    <LinearLayout
+                        android:id="@+id/layout_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="@dimen/label_width"
+                            android:layout_height="wrap_content"
+                            android:text="姓名"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <TextView
+                            android:id="@+id/tv_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="燃力用户"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_sm"
+                            android:layout_height="@dimen/icon_size_sm"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/on_surface_variant" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/outline_variant" />
+
+                    <!-- 身高 -->
+                    <LinearLayout
+                        android:id="@+id/layout_height"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="@dimen/label_width"
+                            android:layout_height="wrap_content"
+                            android:text="身高"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <TextView
+                            android:id="@+id/tv_height"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="170cm"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_sm"
+                            android:layout_height="@dimen/icon_size_sm"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/on_surface_variant" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/outline_variant" />
+
+                    <!-- 性别 -->
+                    <LinearLayout
+                        android:id="@+id/layout_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="@dimen/label_width"
+                            android:layout_height="wrap_content"
+                            android:text="性别"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <TextView
+                            android:id="@+id/tv_gender"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="男"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_sm"
+                            android:layout_height="@dimen/icon_size_sm"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/on_surface_variant" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/outline_variant" />
+
+                    <!-- 年龄 -->
+                    <LinearLayout
+                        android:id="@+id/layout_age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="@dimen/label_width"
+                            android:layout_height="wrap_content"
+                            android:text="年龄"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <TextView
+                            android:id="@+id/tv_age"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="25岁"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_sm"
+                            android:layout_height="@dimen/icon_size_sm"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/on_surface_variant" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/outline_variant" />
+
+                    <!-- 健身目标 -->
+                    <LinearLayout
+                        android:id="@+id/layout_goal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="@dimen/spacing_md">
+
+                        <TextView
+                            android:layout_width="@dimen/label_width"
+                            android:layout_height="wrap_content"
+                            android:text="健身目标"
+                            android:textColor="@color/on_surface"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <TextView
+                            android:id="@+id/tv_goal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="减脂塑形"
+                            android:textColor="@color/on_surface_variant"
+                            android:textSize="@dimen/text_size_md" />
+
+                        <ImageView
+                            android:layout_width="@dimen/icon_size_sm"
+                            android:layout_height="@dimen/icon_size_sm"
+                            android:src="@drawable/ic_chevron_right"
+                            android:tint="@color/on_surface_variant" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- 保存按钮 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        style="@style/Fit8.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_horizontal"
+        android:text="保存" />
+
+</LinearLayout>

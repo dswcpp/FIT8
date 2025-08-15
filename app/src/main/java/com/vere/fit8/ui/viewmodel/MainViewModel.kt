@@ -2,7 +2,9 @@ package com.vere.fit8.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.vere.fit8.data.initializer.AchievementInitializer
 import com.vere.fit8.data.initializer.DietPlanInitializer
+import com.vere.fit8.data.initializer.TrainingPlanInitializer
 import com.vere.fit8.data.repository.Fit8Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +17,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Fit8Repository,
-    private val dietPlanInitializer: DietPlanInitializer
+    private val dietPlanInitializer: DietPlanInitializer,
+    private val trainingPlanInitializer: TrainingPlanInitializer,
+    private val achievementInitializer: AchievementInitializer
 ) : ViewModel() {
     
     init {
@@ -35,7 +39,7 @@ class MainViewModel @Inject constructor(
     
     private suspend fun initializeTrainingPlans() {
         // 初始化8周训练计划
-        // 这里可以从预设数据或网络加载训练计划
+        trainingPlanInitializer.initializeTrainingPlans()
     }
     
     private suspend fun initializeDietPlans() {
@@ -45,6 +49,6 @@ class MainViewModel @Inject constructor(
     
     private suspend fun initializeAchievements() {
         // 初始化成就系统
-        // 这里可以从预设数据加载成就列表
+        achievementInitializer.initializeAchievements()
     }
 }

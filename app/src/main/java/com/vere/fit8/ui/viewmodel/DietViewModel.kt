@@ -42,27 +42,111 @@ class DietViewModel @Inject constructor(
     fun loadTodayDiet() {
         viewModelScope.launch {
             _isLoading.value = true
-            
+
             try {
                 val date = _currentDate.value
                 val currentWeek = getCurrentWeek()
-                
-                // 加载饮食计划
-                val dietPlans = repository.getDietPlans(currentWeek)
-                _todayDietPlans.value = dietPlans
-                
+
+                // 调试：检查数据库中是否有饮食计划数据
+                val allPlans = repository.getDietPlans(currentWeek)
+                android.util.Log.d("DietViewModel", "Total diet plans in week $currentWeek: ${allPlans.size}")
+
+                // 加载饮食计划 - 根据当前是周几来获取对应的食谱
+                val dayOfWeek = date.dayOfWeek.value // 1=周一, 7=周日
+                val dietPlans = repository.getDietPlansByDay(currentWeek, dayOfWeek)
+                android.util.Log.d("DietViewModel", "Diet plans for day $dayOfWeek: ${dietPlans.size}")
+
+                // 如果没有数据，尝试强制初始化
+                if (dietPlans.isEmpty()) {
+                    android.util.Log.d("DietViewModel", "No diet plans found, trying to initialize...")
+                    // 这里可以触发数据初始化
+                    initializeDietPlansIfNeeded()
+                    // 重新加载
+                    val newDietPlans = repository.getDietPlansByDay(currentWeek, dayOfWeek)
+                    _todayDietPlans.value = newDietPlans
+                    android.util.Log.d("DietViewModel", "After initialization, diet plans: ${newDietPlans.size}")
+                } else {
+                    _todayDietPlans.value = dietPlans
+                }
+
                 // 加载饮食记录
                 val mealRecords = repository.getMealRecords(date)
                 _todayMealRecords.value = mealRecords
-                
+
                 // 计算营养汇总
                 updateNutritionSummary(mealRecords)
-                
+
             } catch (e: Exception) {
                 e.printStackTrace()
+                android.util.Log.e("DietViewModel", "Error loading diet data", e)
             } finally {
                 _isLoading.value = false
             }
+        }
+    }
+
+    private suspend fun initializeDietPlansIfNeeded() {
+        try {
+            // 创建一些示例数据用于测试
+            val samplePlans = listOf(
+                DietPlan(
+                    id = "sample_breakfast_1",
+                    week = 1,
+                    dayOfWeek = LocalDate.now().dayOfWeek.value,
+                    mealType = "BREAKFAST",
+                    foodName = "燕麦粥",
+                    amount = "50g",
+                    calories = 190,
+                    protein = 6.5f,
+                    carbs = 32.0f,
+                    fat = 3.5f,
+                    description = "营养丰富的早餐"
+                ),
+                DietPlan(
+                    id = "sample_breakfast_2",
+                    week = 1,
+                    dayOfWeek = LocalDate.now().dayOfWeek.value,
+                    mealType = "BREAKFAST",
+                    foodName = "鸡蛋",
+                    amount = "2个",
+                    calories = 140,
+                    protein = 12.0f,
+                    carbs = 1.0f,
+                    fat = 10.0f,
+                    description = "优质蛋白质来源"
+                ),
+                DietPlan(
+                    id = "sample_lunch_1",
+                    week = 1,
+                    dayOfWeek = LocalDate.now().dayOfWeek.value,
+                    mealType = "LUNCH",
+                    foodName = "鸡胸肉",
+                    amount = "120g",
+                    calories = 198,
+                    protein = 37.2f,
+                    carbs = 0.0f,
+                    fat = 4.3f,
+                    description = "高蛋白低脂肉类"
+                ),
+                DietPlan(
+                    id = "sample_dinner_1",
+                    week = 1,
+                    dayOfWeek = LocalDate.now().dayOfWeek.value,
+                    mealType = "DINNER",
+                    foodName = "蔬菜沙拉",
+                    amount = "200g",
+                    calories = 50,
+                    protein = 3.0f,
+                    carbs = 8.0f,
+                    fat = 1.0f,
+                    description = "清爽的晚餐"
+                )
+            )
+
+            repository.saveDietPlans(samplePlans)
+            android.util.Log.d("DietViewModel", "Sample diet plans saved")
+        } catch (e: Exception) {
+            android.util.Log.e("DietViewModel", "Error initializing sample diet plans", e)
         }
     }
     
@@ -105,6 +189,14 @@ class DietViewModel @Inject constructor(
                 photoPath = photoPath
             )
             
+            repository.saveMealRecord(record)
+            loadTodayDiet() // 重新加载数据
+        }
+    }
+
+    // 重载方法：直接接受MealRecord对象
+    fun addMealRecord(record: MealRecord) {
+        viewModelScope.launch {
             repository.saveMealRecord(record)
             loadTodayDiet() // 重新加载数据
         }

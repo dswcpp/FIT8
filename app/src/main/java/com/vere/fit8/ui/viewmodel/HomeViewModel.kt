@@ -1,5 +1,6 @@
 package com.vere.fit8.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vere.fit8.data.model.DailyRecord
@@ -38,26 +39,34 @@ class HomeViewModel @Inject constructor(
     fun loadTodayData() {
         viewModelScope.launch {
             _isLoading.value = true
-            
+
             try {
                 val today = LocalDate.now()
-                
+                Log.d("HomeViewModel", "Loading data for: $today")
+
                 // 加载今日记录
                 val record = repository.getDailyRecord(today) ?: createEmptyRecord(today)
                 _todayRecord.value = record
-                
+                Log.d("HomeViewModel", "Daily record loaded: $record")
+
                 // 加载今日训练计划
                 val stats = repository.getUserStats()
+                Log.d("HomeViewModel", "User stats loaded: $stats")
+
                 val currentWeek = stats?.currentWeek ?: 1
                 val dayOfWeek = today.dayOfWeek.value
+                Log.d("HomeViewModel", "Looking for plan: week=$currentWeek, day=$dayOfWeek")
+
                 val plan = repository.getDailyPlan(currentWeek, dayOfWeek)
                 _todayPlan.value = plan
-                
+                Log.d("HomeViewModel", "Today plan loaded: $plan")
+
                 // 加载用户统计
                 _userStats.value = stats
-                
+
             } catch (e: Exception) {
                 // 处理错误
+                Log.e("HomeViewModel", "Error loading today data", e)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false

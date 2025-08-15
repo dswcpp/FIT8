@@ -59,4 +59,9 @@ object DatabaseModule {
     fun provideUserStatsDao(database: Fit8Database): UserStatsDao {
         return database.userStatsDao()
     }
+
+    @Provides
+    fun provideAppSettingsDao(database: Fit8Database): com.vere.fit8.data.dao.AppSettingsDao {
+        return database.appSettingsDao()
+    }
 }

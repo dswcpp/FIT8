@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        android:elevation="0dp"
+        app:title="今日任务"
+        app:titleTextColor="@color/text_primary"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:navigationIconTint="@color/text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_xl">
+
+            <!-- Task Status -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/spacing_xxl">
+
+                <TextView
+                    android:id="@+id/tv_task_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日训练计划"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_display"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="@dimen/spacing_md"
+                    tools:text="今日训练计划" />
+
+                <TextView
+                    android:id="@+id/tv_task_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="坚持就是胜利"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    tools:text="坚持就是胜利" />
+
+            </LinearLayout>
+
+            <!-- Training Plan Details -->
+            <LinearLayout
+                android:id="@+id/layout_training_plan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface_variant"
+                android:padding="@dimen/spacing_xl"
+                android:layout_marginBottom="@dimen/spacing_xl">
+
+                <TextView
+                    android:id="@+id/tv_plan_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="胸部训练"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_title"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="@dimen/spacing_md"
+                    tools:text="胸部训练" />
+
+                <TextView
+                    android:id="@+id/tv_plan_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="预计时长: 45分钟"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="@dimen/spacing_sm"
+                    tools:text="预计时长: 45分钟" />
+
+                <TextView
+                    android:id="@+id/tv_plan_difficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="难度: 中等"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="@dimen/spacing_md"
+                    tools:text="难度: 中等" />
+
+                <TextView
+                    android:id="@+id/tv_plan_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日重点训练胸部肌群，包括俯卧撑、哑铃卧推等动作。"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="@dimen/spacing_lg"
+                    tools:text="今日重点训练胸部肌群，包括俯卧撑、哑铃卧推等动作。" />
+
+                <!-- Exercise List -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="训练动作"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_body_large"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="@dimen/spacing_md" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_exercises"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_exercise_simple" />
+
+            </LinearLayout>
+
+            <!-- Rest Day Layout -->
+            <LinearLayout
+                android:id="@+id/layout_rest_day"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/surface_variant"
+                android:padding="@dimen/spacing_xl"
+                android:layout_marginBottom="@dimen/spacing_xl"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🌟 今日是休息日"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_title"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="@dimen/spacing_md" />
+
+                <TextView
+                    android:id="@+id/tv_rest_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="休息也是训练的一部分！适当的休息有助于肌肉恢复和生长。"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginBottom="@dimen/spacing_lg"
+                    tools:text="休息也是训练的一部分！适当的休息有助于肌肉恢复和生长。" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 今日建议："
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/text_size_body_large"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="@dimen/spacing_sm" />
+
+                <TextView
+                    android:id="@+id/tv_rest_suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🧘‍♀️ 今天可以做一些轻松的拉伸运动"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif"
+                    tools:text="🧘‍♀️ 今天可以做一些轻松的拉伸运动" />
+
+            </LinearLayout>
+
+            <!-- Tips Section -->
+            <TextView
+                android:id="@+id/tv_tips_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💡 训练提示"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_body_large"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="@dimen/spacing_md" />
+
+            <TextView
+                android:id="@+id/tv_tips"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="训练前请充分热身，训练后记得拉伸放松。"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_body"
+                android:fontFamily="sans-serif"
+                android:layout_marginBottom="@dimen/spacing_xxl"
+                tools:text="训练前请充分热身，训练后记得拉伸放松。" />
+
+            <!-- Action Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_start_training"
+                    style="@style/Fit8.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height_large"
+                    android:text="开始训练"
+                    android:textSize="@dimen/text_size_body_large"
+                    android:layout_marginBottom="@dimen/spacing_md" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_details"
+                    style="@style/Fit8.Button.Outline"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:text="查看详情"
+                    android:textSize="@dimen/text_size_body" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

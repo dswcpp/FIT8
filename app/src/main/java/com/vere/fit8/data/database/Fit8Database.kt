@@ -20,9 +20,10 @@ import com.vere.fit8.data.model.*
         DietPlan::class,
         MealRecord::class,
         Achievement::class,
-        UserStats::class
+        UserStats::class,
+        com.vere.fit8.data.model.AppSettings::class
     ],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(Converters::class)
@@ -34,6 +35,7 @@ abstract class Fit8Database : RoomDatabase() {
     abstract fun mealRecordDao(): MealRecordDao
     abstract fun achievementDao(): AchievementDao
     abstract fun userStatsDao(): UserStatsDao
+    abstract fun appSettingsDao(): com.vere.fit8.data.dao.AppSettingsDao
     
     companion object {
         @Volatile

@@ -2,6 +2,7 @@ package com.vere.fit8.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -20,7 +21,7 @@ data class Achievement(
     val isUnlocked: Boolean = false,    // 是否已解锁
     val unlockedAt: LocalDateTime? = null, // 解锁时间
     val points: Int = 10                // 成就积分
-)
+) : Serializable
 
 /**
  * 成就类型枚举
@@ -49,6 +50,8 @@ data class UserStats(
     val totalCaloriesBurned: Int = 0,   // 总消耗卡路里
     val totalPoints: Int = 0,           // 总积分
     val currentWeek: Int = 1,           // 当前周数
+    val totalMinutes: Int = 0,          // 累计训练时间（分钟）
+    val badges: Int = 0,                // 称号徽章数量
     val startDate: LocalDateTime? = null, // 开始日期
     val lastActiveDate: LocalDateTime? = null // 最后活跃日期
 )

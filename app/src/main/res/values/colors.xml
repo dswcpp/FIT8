@@ -1,42 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 基础颜色 -->
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Flat Minimalistic Color System -->
 
-    <!-- 燃力8周主题配色 -->
-    <!-- 主色：活力橙 -->
-    <color name="primary">#FF6B35</color>
-    <color name="primary_dark">#E55A2B</color>
-    <color name="primary_light">#FF8A5B</color>
-    <color name="primary_variant">#FF7F50</color>
-
-    <!-- 辅色：清新绿 -->
-    <color name="secondary">#27AE60</color>
-    <color name="secondary_dark">#229954</color>
-    <color name="secondary_light">#2ECC71</color>
-    <color name="secondary_variant">#58D68D</color>
-
-    <!-- 背景色系 -->
-    <color name="background">#F7F8FA</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="surface_variant">#F5F5F5</color>
-
-    <!-- 文字颜色 -->
-    <color name="on_primary">#FFFFFF</color>
-    <color name="on_secondary">#FFFFFF</color>
-    <color name="on_background">#1C1C1E</color>
-    <color name="on_surface">#1C1C1E</color>
-    <color name="on_surface_variant">#6C6C70</color>
-
-    <!-- 功能色 -->
-    <color name="error">#FF3B30</color>
-    <color name="error_dark">#D70015</color>
-    <color name="success">#34C759</color>
-    <color name="warning">#FF9500</color>
-    <color name="info">#007AFF</color>
-
-    <!-- 灰度色系 -->
+    <!-- Base Colors -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
     <color name="gray_50">#FAFAFA</color>
     <color name="gray_100">#F5F5F5</color>
     <color name="gray_200">#EEEEEE</color>
@@ -48,19 +16,80 @@
     <color name="gray_800">#424242</color>
     <color name="gray_900">#212121</color>
 
-    <!-- 透明度变体 -->
-    <color name="primary_alpha_10">#1AFF6B35</color>
-    <color name="primary_alpha_20">#33FF6B35</color>
-    <color name="primary_alpha_50">#80FF6B35</color>
-    <color name="secondary_alpha_10">#1A27AE60</color>
-    <color name="secondary_alpha_20">#3327AE60</color>
-    <color name="secondary_alpha_50">#8027AE60</color>
+    <!-- Primary Accent Color (Single accent) -->
+    <color name="primary">#007AFF</color>
+    <color name="primary_dark">#0056CC</color>
+    <color name="primary_variant">#007AFF</color>
 
-    <!-- 卡片阴影 -->
-    <color name="shadow_light">#0D000000</color>
-    <color name="shadow_medium">#1A000000</color>
+    <!-- Secondary Accent Color (Single accent) -->
+    <color name="secondary">#34C759</color>
+    <color name="secondary_dark">#28A745</color>
+    <color name="secondary_variant">#34C759</color>
 
-    <!-- 分割线 -->
+    <!-- Background System -->
+    <color name="background">#FFFFFF</color>
+    <color name="background_dark">#000000</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_dark">#000000</color>
+    <color name="surface_variant">#F5F5F5</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#6C6C70</color>
+    <color name="text_tertiary">#8E8E93</color>
+    <color name="text_primary_dark">#FFFFFF</color>
+    <color name="text_secondary_dark">#8E8E93</color>
+    <color name="text_tertiary_dark">#6C6C70</color>
+
+    <!-- On Colors -->
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="on_background">#000000</color>
+    <color name="on_surface">#000000</color>
+    <color name="on_surface_variant">#6C6C70</color>
+    <color name="on_background_dark">#FFFFFF</color>
+    <color name="on_surface_dark">#FFFFFF</color>
+
+    <!-- Functional Colors -->
+    <color name="error">#FF3B30</color>
+    <color name="warning">#FF9500</color>
+    <color name="success">#34C759</color>
+    <color name="info">#007AFF</color>
+
+    <!-- Dividers -->
     <color name="divider">#E5E5E7</color>
-    <color name="divider_dark">#D1D1D6</color>
+    <color name="divider_dark">#2C2C2E</color>
+    <color name="outline_variant">#E0E0E0</color>
+    <color name="outline_variant_light">#E0E0E0</color>
+
+    <!-- Navigation -->
+    <color name="nav_selected">#007AFF</color>
+    <color name="nav_unselected">#8E8E93</color>
+
+    <!-- Alpha Colors -->
+    <color name="primary_alpha_10">#1A007AFF</color>
+    <color name="primary_alpha_20">#33007AFF</color>
+    <color name="primary_alpha_30">#4D007AFF</color>
+    <color name="secondary_alpha_10">#1A34C759</color>
+    <color name="secondary_alpha_20">#3334C759</color>
+    <color name="warning_alpha_10">#1AFF9500</color>
+    <color name="warning_alpha_20">#33FF9500</color>
+    <color name="info_alpha_10">#1A007AFF</color>
+    <color name="info_alpha_20">#33007AFF</color>
+    <color name="surface_alpha_20">#33ffffff</color>
+    <color name="on_primary_alpha_80">#CCffffff</color>
+    <color name="error_alpha_60">#99FF3B30</color>
+    <color name="shadow_color">#1A000000</color>
+    <color name="shadow_color_light">#0D000000</color>
+
+    <!-- Legacy Support (for compilation) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <!-- Legacy Bottom Navigation -->
+    <color name="bottom_nav_item_color">@color/nav_unselected</color>
+
 </resources>

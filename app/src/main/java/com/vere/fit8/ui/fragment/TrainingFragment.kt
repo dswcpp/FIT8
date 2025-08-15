@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.vere.fit8.R
 import com.vere.fit8.databinding.FragmentTrainingBinding
+import com.vere.fit8.ui.activity.ExerciseExecutionActivity
 import com.vere.fit8.ui.adapter.ExerciseAdapter
 import com.vere.fit8.ui.viewmodel.TrainingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -87,6 +91,15 @@ class TrainingFragment : Fragment() {
         binding.btnNextExercise.setOnClickListener {
             viewModel.nextExercise()
         }
+
+        // 计数按钮
+        binding.btnIncreaseRep.setOnClickListener {
+            viewModel.incrementReps()
+        }
+
+        binding.btnDecreaseRep.setOnClickListener {
+            viewModel.decrementReps()
+        }
     }
     
     private fun setupRecyclerView() {
@@ -94,8 +107,14 @@ class TrainingFragment : Fragment() {
             onExerciseClick = { exercise ->
                 showExerciseDetail(exercise)
             },
+            onStartExerciseClick = { exercise ->
+                startExerciseExecution(exercise)
+            },
             onCompleteClick = { exercise ->
                 viewModel.completeExercise(exercise)
+            },
+            getExerciseProgress = { exerciseName ->
+                viewModel.getExerciseProgress(exerciseName)
             }
         )
         
@@ -145,6 +164,57 @@ class TrainingFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.restTimer.collect { time ->
                 updateRestTimer(time)
+            }
+        }
+
+        // 观察动作计数状态
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentReps.collect { reps ->
+                binding.tvCurrentRepCount.text = reps.toString()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.targetReps.collect { reps ->
+                binding.tvTargetRepCount.text = reps.toString()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isCountingReps.collect { isCounting ->
+                binding.layoutRepCounter.visibility = if (isCounting) View.VISIBLE else View.GONE
+            }
+        }
+
+        // 观察动作计时状态
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.exerciseTimer.collect { seconds ->
+                val minutes = seconds / 60
+                val secs = seconds % 60
+                binding.tvExerciseTimer.text = String.format("%02d:%02d", minutes, secs)
+
+                // 更新进度条
+                val exercise = viewModel.currentExercise.value
+                if (exercise != null && exercise.durationSec > 0) {
+                    val progress = (seconds * 100) / exercise.durationSec
+                    binding.progressExerciseTimer.progress = progress
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.isTimingExercise.collect { isTiming ->
+                binding.layoutExerciseTimer.visibility = if (isTiming) View.VISIBLE else View.GONE
+            }
+        }
+
+        // 观察当前组数
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentSetNumber.collect { setNumber ->
+                val exercise = viewModel.currentExercise.value
+                if (exercise != null) {
+                    binding.tvCurrentSets.text = "第${setNumber}/${exercise.sets}组"
+                }
             }
         }
     }
@@ -222,15 +292,65 @@ class TrainingFragment : Fragment() {
     }
     
     private fun showExerciseDetail(exercise: com.vere.fit8.data.model.ExerciseTemplate) {
-        // 显示动作详情对话框
-        // 包含动作说明、视频、图片等
+        val message = buildString {
+            append("动作：${exercise.name}\n")
+            append("英文名：${exercise.nameEn}\n")
+            if (exercise.reps > 0) {
+                append("次数：${exercise.reps}次\n")
+            }
+            if (exercise.durationSec > 0) {
+                append("时长：${exercise.durationSec}秒\n")
+            }
+            append("组数：${exercise.sets}组\n")
+            if (exercise.restSec > 0) {
+                append("组间休息：${exercise.restSec}秒\n")
+            }
+            append("难度：${exercise.difficulty}/5\n")
+            append("器械：${exercise.equipment}\n")
+            if (exercise.targetMuscles.isNotEmpty()) {
+                append("目标肌群：${exercise.targetMuscles.joinToString(", ")}\n")
+            }
+            if (exercise.description.isNotEmpty()) {
+                append("\n动作要领：\n${exercise.description}")
+            }
+            if (exercise.tips.isNotEmpty()) {
+                append("\n小贴士：\n${exercise.tips}")
+            }
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("动作详情")
+            .setMessage(message)
+            .setPositiveButton("知道了") { _, _ ->
+                Toast.makeText(requireContext(), "开始${exercise.name}训练", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("关闭", null)
+            .show()
     }
     
     private fun showTrainingCompleteDialog(duration: Int, calories: Int) {
-        // 显示训练完成对话框
-        // 显示训练时长、消耗卡路里、成就等
+        val message = buildString {
+            append("🎉 恭喜完成今日训练！\n\n")
+            append("⏱️ 训练时长：${duration}分钟\n")
+            append("🔥 消耗卡路里：${calories}kcal\n")
+            append("💪 坚持就是胜利！")
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("训练完成")
+            .setMessage(message)
+            .setPositiveButton("太棒了！") { _, _ ->
+                Toast.makeText(requireContext(), "训练数据已保存", Toast.LENGTH_SHORT).show()
+            }
+            .setCancelable(false)
+            .show()
     }
     
+    private fun startExerciseExecution(exercise: com.vere.fit8.data.model.ExerciseTemplate) {
+        val intent = ExerciseExecutionActivity.createIntent(requireContext(), exercise)
+        startActivity(intent)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

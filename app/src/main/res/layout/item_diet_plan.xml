@@ -94,7 +94,7 @@
 
         </LinearLayout>
 
-        <!-- 热量信息 -->
+        <!-- 热量信息和打卡按钮 -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -111,12 +111,20 @@
                 android:textStyle="bold"
                 tools:text="140kcal" />
 
-            <ImageView
-                android:layout_width="@dimen/icon_size_sm"
-                android:layout_height="@dimen/icon_size_sm"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_check_in"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginTop="@dimen/spacing_xs"
-                android:src="@drawable/ic_chevron_right"
-                android:tint="@color/on_surface_variant" />
+                android:minWidth="0dp"
+                android:paddingHorizontal="@dimen/spacing_sm"
+                android:text="✓ 打卡"
+                android:textSize="@dimen/text_size_xs"
+                app:cornerRadius="16dp"
+                app:iconGravity="textStart"
+                app:iconPadding="2dp"
+                app:iconSize="12dp" />
 
         </LinearLayout>
 
