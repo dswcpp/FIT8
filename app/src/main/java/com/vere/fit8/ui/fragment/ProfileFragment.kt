@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vere.fit8.R
 import com.vere.fit8.databinding.FragmentProfileBinding
@@ -48,7 +50,7 @@ class ProfileFragment : Fragment() {
     private fun setupUI() {
         // 设置点击事件
         binding.cardUserInfo.setOnClickListener {
-            showUserInfoDialog()
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.UserProfileActivity::class.java))
         }
 
         binding.cardCoupons.setOnClickListener {
@@ -60,11 +62,15 @@ class ProfileFragment : Fragment() {
         }
 
         binding.cardAddPhoto.setOnClickListener {
-            showAddPhotoDialog()
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.ProgressPhotoActivity::class.java))
         }
 
         binding.layoutAccount.setOnClickListener {
             showAccountDialog()
+        }
+
+        binding.layoutSystemSettings.setOnClickListener {
+            startActivity(Intent(requireContext(), com.vere.fit8.ui.activity.SettingsActivity::class.java))
         }
 
         binding.layoutContact.setOnClickListener {
@@ -82,6 +88,24 @@ class ProfileFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.achievements.collect { achievements ->
                 updateAchievements(achievements)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.appSettings.collect { settings ->
+                updateUserInfo(settings)
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.couponCount.collect { count ->
+                binding.tvCouponCount.text = count.toString()
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.photoCount.collect { count ->
+                binding.tvPhotoCount.text = count.toString()
             }
         }
     }
@@ -102,18 +126,42 @@ class ProfileFragment : Fragment() {
         // 成就相关的UI更新可以在这里实现
         // 目前新设计中没有专门的成就显示区域
     }
-    
-    private fun showUserInfoDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("用户信息")
-            .setMessage("👤 昵称：Vere 🏃 健身小白\n🆔 ID：0081107\n📅 等级：Lv.1\n📅 加入时间：2024年8月")
-            .setPositiveButton("编辑") { _, _ ->
-                // 跳转到用户信息编辑页面
-                Toast.makeText(requireContext(), "编辑用户信息功能开发中", Toast.LENGTH_SHORT).show()
+
+    private fun updateUserInfo(settings: com.vere.fit8.data.model.AppSettings?) {
+        settings?.let {
+            // 更新用户名
+            binding.tvUserName.text = it.userName
+
+            // 更新用户信息
+            val userInfo = buildString {
+                append("身高: ${it.userHeight.toInt()}cm")
+                append(" | ")
+                append("年龄: ${it.userAge}岁")
+                append(" | ")
+                append("目标: ${it.userGoal}")
             }
-            .setNegativeButton("关闭", null)
-            .show()
+            binding.tvUserInfo.text = userInfo
+
+            // 更新头像
+            loadUserAvatar(it.userAvatar)
+        }
     }
+
+    private fun loadUserAvatar(avatarPath: String?) {
+        if (!avatarPath.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(avatarPath)
+                .transform(CircleCrop())
+                .placeholder(R.drawable.ic_profile)
+                .error(R.drawable.ic_profile)
+                .into(binding.ivUserAvatar)
+        } else {
+            // 使用默认头像
+            binding.ivUserAvatar.setImageResource(R.drawable.ic_profile)
+        }
+    }
+
+    // 用户信息现在直接跳转到编辑页面
 
     private fun showCouponsDialog() {
         MaterialAlertDialogBuilder(requireContext())
@@ -151,19 +199,7 @@ class ProfileFragment : Fragment() {
             .show()
     }
 
-    private fun showAddPhotoDialog() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("添加进步照片")
-            .setMessage("📸 记录您的健身变化\n\n拍摄前后对比照，见证自己的蜕变！")
-            .setPositiveButton("拍照") { _, _ ->
-                Toast.makeText(requireContext(), "拍照功能开发中", Toast.LENGTH_SHORT).show()
-            }
-            .setNeutralButton("从相册选择") { _, _ ->
-                Toast.makeText(requireContext(), "相册选择功能开发中", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("取消", null)
-            .show()
-    }
+    // 进步照片现在直接跳转到专门页面
 
     private fun showBusinessDialog() {
         MaterialAlertDialogBuilder(requireContext())

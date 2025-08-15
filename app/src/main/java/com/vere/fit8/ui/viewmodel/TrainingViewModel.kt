@@ -79,30 +79,105 @@ class TrainingViewModel @Inject constructor(
     fun loadTodayTraining() {
         viewModelScope.launch {
             _isLoading.value = true
-            
+
             try {
                 val date = _currentDate.value
                 val currentWeek = getCurrentWeek()
                 val dayOfWeek = date.dayOfWeek.value
-                
+
+                // 调试日志
+                android.util.Log.d("TrainingViewModel", "Loading training for week $currentWeek, day $dayOfWeek")
+
                 // 加载今日训练计划
                 val plan = repository.getDailyPlan(currentWeek, dayOfWeek)
+                android.util.Log.d("TrainingViewModel", "Loaded plan: ${plan?.trainingType ?: "null"}")
+
                 _todayPlan.value = plan
-                
+
                 // 设置训练动作列表
                 plan?.let {
                     _exercises.value = it.exercises
+                    android.util.Log.d("TrainingViewModel", "Loaded ${it.exercises.size} exercises")
                     if (it.exercises.isNotEmpty()) {
                         _currentExercise.value = it.exercises[0]
                     }
+                } ?: run {
+                    // 如果没有找到计划，尝试强制初始化数据
+                    android.util.Log.w("TrainingViewModel", "No training plan found, trying to initialize data")
+                    initializeTrainingDataIfNeeded()
                 }
-                
+
             } catch (e: Exception) {
+                android.util.Log.e("TrainingViewModel", "Error loading training data", e)
                 e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }
         }
+    }
+
+    private suspend fun initializeTrainingDataIfNeeded() {
+        try {
+            // 检查是否有任何训练计划数据
+            val allPlans = repository.getWeeklyPlans(1)
+            if (allPlans.isEmpty()) {
+                android.util.Log.d("TrainingViewModel", "No training plans found, creating sample data")
+                // 创建一个简单的示例训练计划
+                createSampleTrainingPlan()
+            }
+        } catch (e: Exception) {
+            android.util.Log.e("TrainingViewModel", "Error initializing training data", e)
+        }
+    }
+
+    private suspend fun createSampleTrainingPlan() {
+        // 创建一个简单的示例训练计划
+        val sampleExercises = listOf(
+            com.vere.fit8.data.model.ExerciseTemplate(
+                name = "俯卧撑",
+                nameEn = "Push-ups",
+                sets = 3,
+                reps = 10,
+                durationSec = 0,
+                restSec = 60,
+                description = "标准俯卧撑动作",
+                tips = "保持身体挺直，控制动作节奏",
+                difficulty = 2,
+                targetMuscles = listOf("胸部", "手臂"),
+                equipment = "无器械"
+            ),
+            com.vere.fit8.data.model.ExerciseTemplate(
+                name = "深蹲",
+                nameEn = "Squats",
+                sets = 3,
+                reps = 15,
+                durationSec = 0,
+                restSec = 60,
+                description = "标准深蹲动作",
+                tips = "膝盖不要超过脚尖，保持背部挺直",
+                difficulty = 2,
+                targetMuscles = listOf("腿部", "臀部"),
+                equipment = "无器械"
+            )
+        )
+
+        val samplePlan = com.vere.fit8.data.model.WeeklyPlan(
+            id = "sample_plan_${System.currentTimeMillis()}",
+            week = 1,
+            dayOfWeek = LocalDate.now().dayOfWeek.value,
+            trainingType = "基础训练",
+            exercises = sampleExercises,
+            estimatedDurationMin = 20,
+            estimatedCalories = 150,
+            description = "基础力量训练",
+            tips = "适合初学者的基础训练计划"
+        )
+
+        repository.saveWeeklyPlan(samplePlan)
+        android.util.Log.d("TrainingViewModel", "Created sample training plan")
+
+        // 重新加载数据
+        loadTodayTraining()
     }
     
     fun previousDay() {

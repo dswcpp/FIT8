@@ -66,6 +66,9 @@ interface AppSettingsDao {
     
     @Query("UPDATE app_settings SET userGoal = :goal WHERE id = 1")
     suspend fun updateUserGoal(goal: String)
+
+    @Query("UPDATE app_settings SET userAvatar = :avatarPath WHERE id = 1")
+    suspend fun updateUserAvatar(avatarPath: String)
     
     // 其他设置
     @Query("UPDATE app_settings SET soundEnabled = :enabled WHERE id = 1")

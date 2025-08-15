@@ -1,16 +1,21 @@
 package com.vere.fit8
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.vere.fit8.data.repository.Fit8Repository
 import com.vere.fit8.databinding.ActivityMainBinding
 import com.vere.fit8.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * 燃力8周 - 主Activity
@@ -18,9 +23,12 @@ import dagger.hilt.android.AndroidEntryPoint
  */
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: ActivityMainBinding
     private val viewModel: MainViewModel by viewModels()
+
+    @Inject
+    lateinit var repository: Fit8Repository
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,12 @@ class MainActivity : AppCompatActivity() {
 
         setupNavigation()
         observeViewModel()
+        initializeData()
+
+        // 延迟处理Intent，确保UI完全初始化
+        binding.root.post {
+            handleIntent()
+        }
     }
     
     private fun setupNavigation() {
@@ -141,6 +155,36 @@ class MainActivity : AppCompatActivity() {
             )
 
             insets
+        }
+    }
+
+    private fun initializeData() {
+        lifecycleScope.launch {
+            try {
+                repository.initializeDefaultData()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 如果初始化失败，可以在这里处理错误
+            }
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleIntent()
+    }
+
+    private fun handleIntent() {
+        try {
+            // 处理从其他Activity传递的参数
+            val switchToTab = intent.getIntExtra("switch_to_tab", -1)
+            if (switchToTab != -1) {
+                switchToTab(switchToTab)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // 如果处理Intent失败，不影响应用正常运行
         }
     }
 }

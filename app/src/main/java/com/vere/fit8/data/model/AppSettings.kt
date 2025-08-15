@@ -30,6 +30,7 @@ data class AppSettings(
     val userGender: String = "male", // male, female
     val userAge: Int = 25,
     val userGoal: String = "减脂塑形",
+    val userAvatar: String? = null, // 头像路径
     
     // 其他设置
     val soundEnabled: Boolean = true,

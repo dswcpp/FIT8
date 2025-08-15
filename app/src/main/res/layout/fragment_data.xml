@@ -178,7 +178,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/tv_average_weight"
+                                android:id="@+id/tv_current_weight"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/info"
@@ -190,7 +190,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_xs"
-                                android:text="平均体重"
+                                android:text="当前体重"
                                 android:textColor="@color/on_surface_variant"
                                 android:textSize="@dimen/text_size_sm" />
 
@@ -204,7 +204,7 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/tv_average_body_fat"
+                                android:id="@+id/tv_current_body_fat"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/success"
@@ -216,11 +216,52 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_xs"
-                                android:text="平均体脂"
+                                android:text="当前体脂"
                                 android:textColor="@color/on_surface_variant"
                                 android:textSize="@dimen/text_size_sm" />
 
                         </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- 第三行：饮水量 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_md"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tv_today_water_intake"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/primary"
+                                android:textSize="@dimen/text_size_xl"
+                                android:textStyle="bold"
+                                tools:text="1500ml" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/spacing_xs"
+                                android:text="今日饮水"
+                                android:textColor="@color/on_surface_variant"
+                                android:textSize="@dimen/text_size_sm" />
+
+                        </LinearLayout>
+
+                        <!-- 空白占位，保持对齐 -->
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3" />
 
                     </LinearLayout>
 
@@ -339,14 +380,34 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 导出数据按钮 -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_export_data"
-            style="@style/Fit8.Button.Outline"
+        <!-- 导出按钮组 -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_download"
-            android:text="@string/data_export" />
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/spacing_lg">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_export_data"
+                style="@style/Fit8.Button.Outline"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/spacing_sm"
+                android:drawableStart="@drawable/ic_download"
+                android:text="导出CSV" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_export_image"
+                style="@style/Fit8.Button.Primary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:drawableStart="@drawable/ic_image"
+                android:text="生成图片" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

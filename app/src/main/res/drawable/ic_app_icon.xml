@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="192dp"
+    android:viewportWidth="192"
+    android:viewportHeight="192">
+    
+    <!-- 主背景 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M96,96m-80,0a80,80 0,1 1,160 0a80,80 0,1 1,-160 0" />
+    
+    <!-- 数字8的设计 - 简化版 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M96,32
+                         C112,32 125,45 125,61
+                         C125,72 120,82 112,88
+                         C120,94 125,104 125,115
+                         C125,131 112,144 96,144
+                         C80,144 67,131 67,115
+                         C67,104 72,94 80,88
+                         C72,82 67,72 67,61
+                         C67,45 80,32 96,32
+                         Z" />
+    
+    <!-- 数字8的内部空洞 - 上半部分 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M96,45
+                         C105,45 112,52 112,61
+                         C112,70 105,77 96,77
+                         C87,77 80,70 80,61
+                         C80,52 87,45 96,45
+                         Z" />
+    
+    <!-- 数字8的内部空洞 - 下半部分 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M96,99
+                         C107,99 116,108 116,115
+                         C116,124 107,131 96,131
+                         C85,131 76,124 76,115
+                         C76,108 85,99 96,99
+                         Z" />
+    
+    <!-- 装饰元素 - 小圆点 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,40m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M152,152m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+    
+    <path
+        android:fillColor="#34C759"
+        android:pathData="M35,96m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+    
+    <path
+        android:fillColor="#34C759"
+        android:pathData="M157,96m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+</vector>

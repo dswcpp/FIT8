@@ -40,7 +40,22 @@ class TodayTaskActivity : AppCompatActivity() {
         
         // 设置按钮点击事件
         binding.btnStartTraining.setOnClickListener {
-            startTraining()
+            try {
+                startTraining()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 如果startTraining失败，直接跳转
+                try {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putExtra("switch_to_tab", 1)
+                        flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    }
+                    startActivity(intent)
+                    finish()
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                }
+            }
         }
         
         binding.btnViewDetails.setOnClickListener {
@@ -136,18 +151,35 @@ class TodayTaskActivity : AppCompatActivity() {
     }
     
     private fun startTraining() {
-        val plan = viewModel.todayPlan.value
-        if (plan != null) {
-            // 跳转到训练页面
-            val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("switch_to_tab", 1) // 训练页面
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        try {
+            val plan = viewModel.todayPlan.value
+            if (plan != null) {
+                // 跳转到训练页面
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("switch_to_tab", 1) // 训练页面
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+                startActivity(intent)
+                finish()
+            } else {
+                // 休息日，查看明日计划
+                viewTrainingDetails()
             }
-            startActivity(intent)
-            finish()
-        } else {
-            // 休息日，查看明日计划
-            viewTrainingDetails()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            // 如果出现异常，直接跳转到训练页面
+            try {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("switch_to_tab", 1)
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                }
+                startActivity(intent)
+                finish()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                // 最后的备选方案，直接finish
+                finish()
+            }
         }
     }
     

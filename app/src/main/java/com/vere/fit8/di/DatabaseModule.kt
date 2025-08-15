@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.vere.fit8.data.dao.*
 import com.vere.fit8.data.database.Fit8Database
+import com.vere.fit8.data.provider.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -63,5 +64,72 @@ object DatabaseModule {
     @Provides
     fun provideAppSettingsDao(database: Fit8Database): com.vere.fit8.data.dao.AppSettingsDao {
         return database.appSettingsDao()
+    }
+
+    @Provides
+    fun provideProgressPhotoDao(database: Fit8Database): com.vere.fit8.data.dao.ProgressPhotoDao {
+        return database.progressPhotoDao()
+    }
+
+    @Provides
+    fun provideExerciseDetailDao(database: Fit8Database): com.vere.fit8.data.dao.ExerciseDetailDao {
+        return database.exerciseDetailDao()
+    }
+
+    // 动作详情数据提供者
+    @Provides
+    @Singleton
+    fun provideUpperBodyExerciseDetails(): UpperBodyExerciseDetails {
+        return UpperBodyExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLowerBodyExerciseDetails(): LowerBodyExerciseDetails {
+        return LowerBodyExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideHIITExerciseDetails(): HIITExerciseDetails {
+        return HIITExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCardioExerciseDetails(): CardioExerciseDetails {
+        return CardioExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoreExerciseDetails(): CoreExerciseDetails {
+        return CoreExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStretchingExerciseDetails(): StretchingExerciseDetails {
+        return StretchingExerciseDetails()
+    }
+
+    @Provides
+    @Singleton
+    fun provideExerciseDetailProvider(
+        upperBodyExercises: UpperBodyExerciseDetails,
+        lowerBodyExercises: LowerBodyExerciseDetails,
+        hiitExercises: HIITExerciseDetails,
+        cardioExercises: CardioExerciseDetails,
+        coreExercises: CoreExerciseDetails,
+        stretchingExercises: StretchingExerciseDetails
+    ): ExerciseDetailProvider {
+        return ExerciseDetailProvider(
+            upperBodyExercises,
+            lowerBodyExercises,
+            hiitExercises,
+            cardioExercises,
+            coreExercises,
+            stretchingExercises
+        )
     }
 }

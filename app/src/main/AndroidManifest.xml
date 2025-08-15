@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 进步照片功能所需权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
     <application
         android:name=".Fit8Application"
         android:allowBackup="true"
@@ -53,6 +59,32 @@
             android:name=".ui.activity.TodayTaskActivity"
             android:exported="false"
             android:theme="@style/Theme.Fit8" />
+
+        <activity
+            android:name=".ui.activity.ProgressPhotoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Fit8" />
+
+        <activity
+            android:name=".ui.activity.ExerciseDetailListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Fit8" />
+
+        <activity
+            android:name=".ui.activity.ExerciseDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Fit8" />
+
+        <!-- FileProvider for camera photos -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

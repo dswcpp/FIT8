@@ -85,7 +85,11 @@
     <dimen name="bottom_nav_height_minus_1">79dp</dimen>
     <dimen name="toolbar_elevation">0dp</dimen>
     <dimen name="margin_horizontal">16dp</dimen>
+    <dimen name="avatar_size_lg">60dp</dimen>
     <dimen name="avatar_size_xl">80dp</dimen>
     <dimen name="label_width">80dp</dimen>
     <dimen name="icon_size_xxl">48dp</dimen>
+
+    <!-- Tag Corner Radius -->
+    <dimen name="tag_corner_radius">8dp</dimen>
 </resources>

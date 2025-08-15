@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/spacing_sm"
+    app:cardCornerRadius="@dimen/corner_radius_md"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/surface"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Photo Image -->
+        <ImageView
+            android:id="@+id/image_photo"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:background="@color/background_secondary"
+            tools:src="@drawable/ic_photo_placeholder" />
+
+        <!-- Photo Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_md">
+
+            <!-- Date -->
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_primary"
+                android:textSize="@dimen/text_size_body_large"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="@dimen/spacing_xs"
+                tools:text="08/15" />
+
+            <!-- Weight and Body Fat -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/spacing_xs">
+
+                <!-- Weight -->
+                <TextView
+                    android:id="@+id/text_weight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_caption"
+                    android:fontFamily="sans-serif"
+                    android:background="@drawable/bg_tag_light"
+                    android:paddingHorizontal="@dimen/spacing_xs"
+                    android:paddingVertical="2dp"
+                    android:layout_marginEnd="@dimen/spacing_xs"
+                    tools:text="65.5斤" />
+
+                <!-- Body Fat -->
+                <TextView
+                    android:id="@+id/text_body_fat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/text_size_caption"
+                    android:fontFamily="sans-serif"
+                    android:background="@drawable/bg_tag_light"
+                    android:paddingHorizontal="@dimen/spacing_xs"
+                    android:paddingVertical="2dp"
+                    tools:text="18.5%" />
+
+            </LinearLayout>
+
+            <!-- Notes -->
+            <TextView
+                android:id="@+id/text_notes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_tertiary"
+                android:textSize="@dimen/text_size_caption"
+                android:fontFamily="sans-serif"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                tools:text="今天的训练效果不错，感觉身体状态很好" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

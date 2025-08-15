@@ -311,6 +311,19 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun updateUserAvatar(avatarPath: String) {
+        viewModelScope.launch {
+            try {
+                repository.updateUserAvatar(avatarPath)
+                _settings.value = _settings.value.copy(userAvatar = avatarPath)
+                _message.value = "头像已更新"
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _message.value = "头像更新失败"
+            }
+        }
+    }
+
     fun clearMessage() {
         _message.value = null
     }

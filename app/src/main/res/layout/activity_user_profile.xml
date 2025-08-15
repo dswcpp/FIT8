@@ -32,19 +32,25 @@
 
             <!-- 头像区域 -->
             <LinearLayout
+                android:id="@+id/layout_avatar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingVertical="@dimen/spacing_xl">
+                android:paddingVertical="@dimen/spacing_xl"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
 
                 <ImageView
+                    android:id="@+id/iv_avatar"
                     android:layout_width="@dimen/avatar_size_xl"
                     android:layout_height="@dimen/avatar_size_xl"
                     android:background="@drawable/bg_avatar"
                     android:padding="@dimen/spacing_lg"
                     android:src="@drawable/ic_profile"
-                    android:tint="@color/primary" />
+                    android:tint="@color/primary"
+                    android:scaleType="centerCrop" />
 
                 <TextView
                     android:layout_width="wrap_content"

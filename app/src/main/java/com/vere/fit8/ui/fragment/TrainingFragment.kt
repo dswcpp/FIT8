@@ -46,11 +46,17 @@ class TrainingFragment : Fragment() {
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        
+
         setupUI()
         setupRecyclerView()
         observeViewModel()
-        loadTodayTraining()
+
+        // 确保数据初始化完成后再加载训练计划
+        viewLifecycleOwner.lifecycleScope.launch {
+            // 等待一小段时间确保Application中的初始化完成
+            kotlinx.coroutines.delay(500)
+            loadTodayTraining()
+        }
     }
     
     private fun setupUI() {
@@ -100,6 +106,24 @@ class TrainingFragment : Fragment() {
         binding.btnDecreaseRep.setOnClickListener {
             viewModel.decrementReps()
         }
+
+        // 查看动作详情按钮
+        binding.btnViewExerciseDetails.setOnClickListener {
+            try {
+                val intent = com.vere.fit8.ui.activity.ExerciseDetailListActivity.createIntent(requireContext())
+                startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // 备选方案：直接创建Intent
+                try {
+                    val intent = android.content.Intent(requireContext(), com.vere.fit8.ui.activity.ExerciseDetailListActivity::class.java)
+                    startActivity(intent)
+                } catch (ex: Exception) {
+                    ex.printStackTrace()
+                    android.widget.Toast.makeText(requireContext(), "无法打开动作详情页面", android.widget.Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
     
     private fun setupRecyclerView() {
@@ -139,7 +163,13 @@ class TrainingFragment : Fragment() {
         
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.exercises.collect { exercises ->
-                exerciseAdapter.submitList(exercises)
+                if (exercises.isEmpty()) {
+                    // 如果没有数据，显示默认的训练计划
+                    showDefaultTrainingPlan()
+                } else {
+                    exerciseAdapter.submitList(exercises)
+                    hideEmptyState()
+                }
             }
         }
         
@@ -349,6 +379,60 @@ class TrainingFragment : Fragment() {
     private fun startExerciseExecution(exercise: com.vere.fit8.data.model.ExerciseTemplate) {
         val intent = ExerciseExecutionActivity.createIntent(requireContext(), exercise)
         startActivity(intent)
+    }
+
+    private fun showDefaultTrainingPlan() {
+        // 创建默认的训练计划显示
+        val defaultExercises = listOf(
+            com.vere.fit8.data.model.ExerciseTemplate(
+                name = "俯卧撑",
+                nameEn = "Push-ups",
+                sets = 3,
+                reps = 10,
+                durationSec = 0,
+                restSec = 60,
+                description = "标准俯卧撑动作，锻炼胸部和手臂力量",
+                tips = "保持身体挺直，控制动作节奏",
+                difficulty = 2,
+                targetMuscles = listOf("胸部", "手臂"),
+                equipment = "无器械"
+            ),
+            com.vere.fit8.data.model.ExerciseTemplate(
+                name = "深蹲",
+                nameEn = "Squats",
+                sets = 3,
+                reps = 15,
+                durationSec = 0,
+                restSec = 60,
+                description = "标准深蹲动作，锻炼腿部和臀部力量",
+                tips = "膝盖不要超过脚尖，保持背部挺直",
+                difficulty = 2,
+                targetMuscles = listOf("腿部", "臀部"),
+                equipment = "无器械"
+            ),
+            com.vere.fit8.data.model.ExerciseTemplate(
+                name = "平板支撑",
+                nameEn = "Plank",
+                sets = 3,
+                reps = 0,
+                durationSec = 30,
+                restSec = 60,
+                description = "核心力量训练，提高身体稳定性",
+                tips = "保持身体一条直线，不要塌腰",
+                difficulty = 2,
+                targetMuscles = listOf("核心", "腹部"),
+                equipment = "无器械"
+            )
+        )
+
+        exerciseAdapter.submitList(defaultExercises)
+        hideEmptyState()
+    }
+
+    private fun hideEmptyState() {
+        // 确保所有视图都可见
+        binding.rvExercises.visibility = View.VISIBLE
+        // 其他视图默认就是可见的，不需要特别设置
     }
 
     override fun onDestroyView() {

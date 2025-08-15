@@ -19,7 +19,9 @@ class Fit8Repository @Inject constructor(
     private val mealRecordDao: MealRecordDao,
     private val achievementDao: AchievementDao,
     private val userStatsDao: UserStatsDao,
-    private val appSettingsDao: com.vere.fit8.data.dao.AppSettingsDao
+    private val appSettingsDao: com.vere.fit8.data.dao.AppSettingsDao,
+    private val progressPhotoDao: com.vere.fit8.data.dao.ProgressPhotoDao,
+    private val exerciseDetailDao: com.vere.fit8.data.dao.ExerciseDetailDao
 ) {
     
     // ==================== 每日记录相关 ====================
@@ -53,9 +55,24 @@ class Fit8Repository @Inject constructor(
     
     suspend fun getAverageWeight(startDate: LocalDate, endDate: LocalDate): Float? =
         dailyRecordDao.getAverageWeight(startDate, endDate)
-    
+
     suspend fun getAverageBodyFat(startDate: LocalDate, endDate: LocalDate): Float? =
         dailyRecordDao.getAverageBodyFat(startDate, endDate)
+
+    // 获取最新体重
+    suspend fun getLatestWeight(): Float? = dailyRecordDao.getLatestWeight()
+
+    // 获取最新体脂
+    suspend fun getLatestBodyFat(): Float? = dailyRecordDao.getLatestBodyFat()
+
+    // 获取当日饮水量
+    suspend fun getTodayWaterIntake(): Int? {
+        val today = LocalDate.now()
+        return dailyRecordDao.getWaterIntakeByDate(today)
+    }
+
+    // 获取所有日常记录（用于导出）
+    suspend fun getAllDailyRecordsForExport(): List<DailyRecord> = dailyRecordDao.getAllRecordsForExport()
     
     suspend fun getTotalCaloriesBurned(startDate: LocalDate, endDate: LocalDate): Int =
         dailyRecordDao.getTotalCaloriesBurned(startDate, endDate)
@@ -261,6 +278,8 @@ class Fit8Repository @Inject constructor(
 
     suspend fun updateUserGoal(goal: String) = appSettingsDao.updateUserGoal(goal)
 
+    suspend fun updateUserAvatar(avatarPath: String) = appSettingsDao.updateUserAvatar(avatarPath)
+
     // 数据管理
     suspend fun resetAllUserData() {
         // 清除所有用户数据，但保留设置
@@ -270,4 +289,65 @@ class Fit8Repository @Inject constructor(
         val defaultStats = com.vere.fit8.data.model.UserStats()
         userStatsDao.insertUserStats(defaultStats)
     }
+
+    // 初始化默认数据
+    suspend fun initializeDefaultData() {
+        // 检查是否已有设置数据
+        if (getAppSettings() == null) {
+            // 创建默认设置
+            val defaultSettings = AppSettings()
+            saveAppSettings(defaultSettings)
+        }
+
+        // 检查是否已有用户统计数据
+        if (getUserStats() == null) {
+            // 创建默认用户统计
+            val defaultStats = UserStats()
+            saveUserStats(defaultStats)
+        }
+    }
+
+    // ==================== 进步照片相关 ====================
+
+    fun getAllProgressPhotosFlow(): Flow<List<ProgressPhoto>> = progressPhotoDao.getAllPhotosFlow()
+
+    suspend fun getAllProgressPhotos(): List<ProgressPhoto> = progressPhotoDao.getAllPhotos()
+
+    suspend fun getProgressPhotoById(id: Long): ProgressPhoto? = progressPhotoDao.getPhotoById(id)
+
+    suspend fun getProgressPhotoCount(): Int = progressPhotoDao.getPhotoCount()
+
+    suspend fun insertProgressPhoto(photo: ProgressPhoto): Long = progressPhotoDao.insertPhoto(photo)
+
+    suspend fun updateProgressPhoto(photo: ProgressPhoto) = progressPhotoDao.updatePhoto(photo)
+
+    suspend fun deleteProgressPhoto(id: Long) = progressPhotoDao.softDeletePhoto(id)
+
+    suspend fun updateProgressPhotoWeight(id: Long, weight: Float?) = progressPhotoDao.updatePhotoWeight(id, weight)
+
+    suspend fun updateProgressPhotoBodyFat(id: Long, bodyFat: Float?) = progressPhotoDao.updatePhotoBodyFat(id, bodyFat)
+
+    suspend fun updateProgressPhotoNotes(id: Long, notes: String) = progressPhotoDao.updatePhotoNotes(id, notes)
+
+    // ==================== 动作详情相关 ====================
+
+    fun getAllExerciseDetailsFlow(): Flow<List<ExerciseDetail>> = exerciseDetailDao.getAllExerciseDetailsFlow()
+
+    suspend fun getAllExerciseDetails(): List<ExerciseDetail> = exerciseDetailDao.getAllExerciseDetails()
+
+    suspend fun getExerciseDetailById(id: String): ExerciseDetail? = exerciseDetailDao.getExerciseDetailById(id)
+
+    fun getExerciseDetailByIdFlow(id: String): Flow<ExerciseDetail?> = exerciseDetailDao.getExerciseDetailByIdFlow(id)
+
+    suspend fun getExerciseDetailsByCategory(category: String): List<ExerciseDetail> = exerciseDetailDao.getExerciseDetailsByCategory(category)
+
+    suspend fun searchExerciseDetails(query: String): List<ExerciseDetail> = exerciseDetailDao.searchExerciseDetails(query)
+
+    suspend fun insertExerciseDetail(exerciseDetail: ExerciseDetail) = exerciseDetailDao.insertExerciseDetail(exerciseDetail)
+
+    suspend fun insertExerciseDetails(exerciseDetails: List<ExerciseDetail>) = exerciseDetailDao.insertExerciseDetails(exerciseDetails)
+
+    suspend fun updateExerciseDetail(exerciseDetail: ExerciseDetail) = exerciseDetailDao.updateExerciseDetail(exerciseDetail)
+
+    suspend fun deleteExerciseDetail(exerciseDetail: ExerciseDetail) = exerciseDetailDao.deleteExerciseDetail(exerciseDetail)
 }

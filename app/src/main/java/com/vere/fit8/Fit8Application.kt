@@ -3,6 +3,7 @@ package com.vere.fit8
 import android.app.Application
 import com.vere.fit8.data.initializer.AchievementInitializer
 import com.vere.fit8.data.initializer.DietPlanInitializer
+import com.vere.fit8.data.initializer.ExerciseDetailInitializer
 import com.vere.fit8.data.initializer.TrainingPlanInitializer
 import com.vere.fit8.data.model.UserStats
 import com.vere.fit8.data.repository.Fit8Repository
@@ -31,6 +32,9 @@ class Fit8Application : Application() {
     lateinit var achievementInitializer: AchievementInitializer
 
     @Inject
+    lateinit var exerciseDetailInitializer: ExerciseDetailInitializer
+
+    @Inject
     lateinit var repository: Fit8Repository
 
     private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -56,6 +60,9 @@ class Fit8Application : Application() {
 
                 // 初始化成就系统
                 achievementInitializer.initializeAchievements()
+
+                // 初始化动作详情
+                exerciseDetailInitializer.initializeExerciseDetails()
 
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    
+    <!-- 背景圆形 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M24,24m-22,0a22,22 0,1 1,44 0a22,22 0,1 1,-44 0" />
+    
+    <!-- 数字8 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,8
+                         C28,8 32,12 32,16
+                         C32,19 30,21 28,22
+                         C30,23 32,25 32,28
+                         C32,32 28,36 24,36
+                         C20,36 16,32 16,28
+                         C16,25 18,23 20,22
+                         C18,21 16,19 16,16
+                         C16,12 20,8 24,8
+                         Z" />
+    
+    <!-- 数字8内部空洞 - 上 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M24,12
+                         C26,12 28,14 28,16
+                         C28,18 26,20 24,20
+                         C22,20 20,18 20,16
+                         C20,14 22,12 24,12
+                         Z" />
+    
+    <!-- 数字8内部空洞 - 下 -->
+    <path
+        android:fillColor="#007AFF"
+        android:pathData="M24,24
+                         C27,24 29,26 29,28
+                         C29,30 27,32 24,32
+                         C21,32 19,30 19,28
+                         C19,26 21,24 24,24
+                         Z" />
+    
+    <!-- 装饰点 -->
+    <path
+        android:fillColor="#34C759"
+        android:pathData="M8,24m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+    
+    <path
+        android:fillColor="#34C759"
+        android:pathData="M40,24m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+</vector>

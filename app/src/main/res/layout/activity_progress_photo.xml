@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_primary"
+    tools:context=".ui.activity.ProgressPhotoActivity">
+
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/surface"
+        android:elevation="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="进步照片"
+        app:titleTextColor="@color/text_primary" />
+
+    <!-- Action Buttons - 扁平化按钮组 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/spacing_lg"
+        android:paddingVertical="@dimen/spacing_lg"
+        android:background="@color/surface">
+
+        <!-- Take Photo Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_take_photo"
+            style="@style/Fit8.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/spacing_sm"
+            android:text="拍照记录"
+            android:textSize="@dimen/text_size_body"
+            android:fontFamily="sans-serif" />
+
+        <!-- Select Photo Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_select_photo"
+            style="@style/Fit8.Button.Secondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:text="选择照片"
+            android:textSize="@dimen/text_size_body"
+            android:fontFamily="sans-serif" />
+
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider" />
+
+    <!-- Content Area -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <!-- Photos Grid -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_photos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="@dimen/spacing_md"
+            android:paddingVertical="@dimen/spacing_lg"
+            android:clipToPadding="false"
+            tools:listitem="@layout/item_progress_photo" />
+
+        <!-- Empty State - 极简空状态 -->
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/spacing_xxl"
+            android:visibility="gone">
+
+            <!-- Empty Icon -->
+            <ImageView
+                android:layout_width="@dimen/icon_size_xxl"
+                android:layout_height="@dimen/icon_size_xxl"
+                android:src="@drawable/ic_photo_placeholder"
+                android:alpha="0.3"
+                android:layout_marginBottom="@dimen/spacing_lg" />
+
+            <!-- Empty Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="还没有进步照片"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_size_title"
+                android:fontFamily="sans-serif-medium"
+                android:layout_marginBottom="@dimen/spacing_sm" />
+
+            <!-- Empty Description -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="记录你的健身进步\n见证每一次改变"
+                android:textColor="@color/text_tertiary"
+                android:textSize="@dimen/text_size_body"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:lineSpacingExtra="@dimen/spacing_xs" />
+
+        </LinearLayout>
+
+        <!-- Loading Indicator - 极简加载 -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,27 +1,79 @@
 package com.vere.fit8.ui.activity
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.vere.fit8.R
 import com.vere.fit8.databinding.ActivityUserProfileBinding
 import com.vere.fit8.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * 用户信息编辑页面
  */
 @AndroidEntryPoint
 class UserProfileActivity : AppCompatActivity() {
-    
+
     private lateinit var binding: ActivityUserProfileBinding
     private val viewModel: SettingsViewModel by viewModels()
+
+    private var currentAvatarUri: Uri? = null
+
+    // 相机权限请求
+    private val cameraPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openCamera()
+        } else {
+            Toast.makeText(this, "需要相机权限才能拍照", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 存储权限请求
+    private val storagePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            openGallery()
+        } else {
+            Toast.makeText(this, "需要存储权限才能选择照片", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // 拍照结果
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { success ->
+        if (success && currentAvatarUri != null) {
+            updateAvatar(currentAvatarUri!!)
+        }
+    }
+
+    // 选择照片结果
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        uri?.let { updateAvatar(it) }
+    }
     
     companion object {
         fun start(context: Context) {
@@ -55,6 +107,11 @@ class UserProfileActivity : AppCompatActivity() {
     }
     
     private fun setupUI() {
+        // 头像更换
+        binding.layoutAvatar.setOnClickListener {
+            showAvatarDialog()
+        }
+
         // 姓名编辑
         binding.layoutName.setOnClickListener {
             showNameEditDialog()
@@ -113,6 +170,23 @@ class UserProfileActivity : AppCompatActivity() {
         binding.tvGender.text = if (settings.userGender == "male") "男" else "女"
         binding.tvAge.text = "${settings.userAge}岁"
         binding.tvGoal.text = settings.userGoal
+
+        // 加载头像
+        loadAvatar(settings.userAvatar)
+    }
+
+    private fun loadAvatar(avatarPath: String?) {
+        if (!avatarPath.isNullOrEmpty()) {
+            Glide.with(this)
+                .load(avatarPath)
+                .transform(CircleCrop())
+                .placeholder(R.drawable.ic_profile)
+                .error(R.drawable.ic_profile)
+                .into(binding.ivAvatar)
+        } else {
+            // 使用默认头像
+            binding.ivAvatar.setImageResource(R.drawable.ic_profile)
+        }
     }
     
     private fun showNameEditDialog() {
@@ -219,5 +293,77 @@ class UserProfileActivity : AppCompatActivity() {
     private fun saveUserProfile() {
         Toast.makeText(this, "个人信息已保存", Toast.LENGTH_SHORT).show()
         finish()
+    }
+
+    // 头像相关方法
+    private fun showAvatarDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("更换头像")
+            .setItems(arrayOf("拍照", "从相册选择")) { _, which ->
+                when (which) {
+                    0 -> checkCameraPermissionAndTakePhoto()
+                    1 -> checkStoragePermissionAndSelectPhoto()
+                }
+            }
+            .setNegativeButton("取消", null)
+            .show()
+    }
+
+    private fun checkCameraPermissionAndTakePhoto() {
+        when {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+                PackageManager.PERMISSION_GRANTED -> {
+                openCamera()
+            }
+            else -> {
+                cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
+            }
+        }
+    }
+
+    private fun checkStoragePermissionAndSelectPhoto() {
+        when {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                PackageManager.PERMISSION_GRANTED -> {
+                openGallery()
+            }
+            else -> {
+                storagePermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+    }
+
+    private fun openCamera() {
+        val photoFile = createImageFile()
+        currentAvatarUri = FileProvider.getUriForFile(
+            this,
+            "${packageName}.fileprovider",
+            photoFile
+        )
+        takePictureLauncher.launch(currentAvatarUri)
+    }
+
+    private fun openGallery() {
+        pickImageLauncher.launch("image/*")
+    }
+
+    private fun createImageFile(): File {
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val imageFileName = "AVATAR_${timeStamp}_"
+        val storageDir = getExternalFilesDir("avatars")
+        return File.createTempFile(imageFileName, ".jpg", storageDir)
+    }
+
+    private fun updateAvatar(uri: Uri) {
+        // 更新UI显示
+        Glide.with(this)
+            .load(uri)
+            .transform(CircleCrop())
+            .into(binding.ivAvatar)
+
+        // 保存头像路径到数据库
+        viewModel.updateUserAvatar(uri.toString())
+
+        Toast.makeText(this, "头像已更新", Toast.LENGTH_SHORT).show()
     }
 }

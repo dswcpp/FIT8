@@ -147,6 +147,20 @@
                     android:textSize="@dimen/text_size_sm"
                     tools:text="💡 训练前请充分热身，注意动作标准" />
 
+                <!-- 查看详情按钮 -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_exercise_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="查看动作详情"
+                    android:textColor="@color/primary"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif-medium"
+                    app:icon="@drawable/ic_info"
+                    app:iconTint="@color/primary"
+                    style="@style/Widget.Material3.Button.TextButton" />
+
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

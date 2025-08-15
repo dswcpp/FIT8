@@ -74,9 +74,81 @@ class DataViewModel @Inject constructor(
     
     fun exportData() {
         viewModelScope.launch {
-            // 实现数据导出功能
-            // 可以导出为CSV或Excel格式
+            try {
+                _isLoading.value = true
+
+                // 获取所有数据
+                val allRecords = repository.getAllDailyRecordsForExport()
+                val userStats = repository.getUserStats()
+
+                // 生成CSV内容
+                val csvContent = generateCSVContent(allRecords, userStats)
+
+                // 触发导出事件
+                _exportEvent.value = ExportEvent.Success(csvContent)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _exportEvent.value = ExportEvent.Error("导出失败：${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
         }
+    }
+
+    fun exportDataAsImage() {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+
+                // 获取汇总数据
+                val summaryStats = _summaryStats.value
+
+                // 获取最近的记录
+                val recentRecords = repository.getAllDailyRecordsForExport().take(10)
+
+                // 触发图片导出事件
+                _exportEvent.value = ExportEvent.ImageSuccess(summaryStats, recentRecords)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+                _exportEvent.value = ExportEvent.Error("图片导出失败：${e.message}")
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private val _exportEvent = MutableStateFlow<ExportEvent?>(null)
+    val exportEvent: StateFlow<ExportEvent?> = _exportEvent.asStateFlow()
+
+    fun clearExportEvent() {
+        _exportEvent.value = null
+    }
+
+    private fun generateCSVContent(records: List<com.vere.fit8.data.model.DailyRecord>, userStats: com.vere.fit8.data.model.UserStats?): String {
+        val csv = StringBuilder()
+
+        // CSV头部
+        csv.appendLine("日期,体重(斤),体脂(%),训练时长(分钟),训练卡路里,饮水量(ml),睡眠时长(小时),备注")
+
+        // 数据行
+        records.forEach { record ->
+            csv.appendLine("${record.date},${record.weight ?: ""},${record.bodyFat ?: ""},${record.trainingDurationMin},${record.trainingCalories},${record.waterMl},${record.sleepHours ?: ""},\"${record.notes}\""
+            )
+        }
+
+        // 添加汇总统计
+        csv.appendLine()
+        csv.appendLine("=== 汇总统计 ===")
+        userStats?.let { stats ->
+            csv.appendLine("总训练次数,${stats.totalWorkouts}")
+            csv.appendLine("总训练天数,${stats.totalDays}")
+            csv.appendLine("连续训练天数,${stats.consecutiveDays}")
+            csv.appendLine("总消耗卡路里,${stats.totalCaloriesBurned}")
+        }
+
+        return csv.toString()
     }
     
     private suspend fun loadWeightData(startDate: LocalDate, endDate: LocalDate) {
@@ -143,19 +215,22 @@ class DataViewModel @Inject constructor(
     private suspend fun loadSummaryStats() {
         val userStats = repository.getUserStats()
         val today = LocalDate.now()
-        val monthStart = today.withDayOfMonth(1)
-        
-        // 计算本月平均体重和体脂
-        val averageWeight = repository.getAverageWeight(monthStart, today) ?: 0f
-        val averageBodyFat = repository.getAverageBodyFat(monthStart, today) ?: 0f
-        
+
+        // 获取当前（最新）体重和体脂
+        val currentWeight = repository.getLatestWeight() ?: 0f
+        val currentBodyFat = repository.getLatestBodyFat() ?: 0f
+
+        // 获取当日饮水量
+        val todayWaterIntake = repository.getTodayWaterIntake() ?: 0
+
         _summaryStats.value = SummaryStats(
             totalWorkouts = userStats?.totalWorkouts ?: 0,
             totalDays = userStats?.totalDays ?: 0,
             consecutiveDays = userStats?.consecutiveDays ?: 0,
             totalCalories = userStats?.totalCaloriesBurned ?: 0,
-            averageWeight = averageWeight,
-            averageBodyFat = averageBodyFat
+            currentWeight = currentWeight,
+            currentBodyFat = currentBodyFat,
+            todayWaterIntake = todayWaterIntake
         )
     }
     
@@ -276,6 +351,16 @@ data class SummaryStats(
     val totalDays: Int = 0,
     val consecutiveDays: Int = 0,
     val totalCalories: Int = 0,
-    val averageWeight: Float = 0f,
-    val averageBodyFat: Float = 0f
+    val currentWeight: Float = 0f,
+    val currentBodyFat: Float = 0f,
+    val todayWaterIntake: Int = 0
 )
+
+/**
+ * 导出事件
+ */
+sealed class ExportEvent {
+    data class Success(val csvContent: String) : ExportEvent()
+    data class ImageSuccess(val summaryStats: SummaryStats, val recentRecords: List<com.vere.fit8.data.model.DailyRecord>) : ExportEvent()
+    data class Error(val message: String) : ExportEvent()
+}

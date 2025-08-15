@@ -85,6 +85,11 @@ class DataFragment : Fragment() {
         binding.btnExportData.setOnClickListener {
             viewModel.exportData()
         }
+
+        // 导出图片按钮
+        binding.btnExportImage.setOnClickListener {
+            viewModel.exportDataAsImage()
+        }
     }
     
     private fun setupCharts() {
@@ -208,6 +213,12 @@ class DataFragment : Fragment() {
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.exportEvent.collect { event ->
+                event?.let { handleExportEvent(it) }
+            }
+        }
     }
     
     private fun loadData() {
@@ -328,8 +339,9 @@ class DataFragment : Fragment() {
             tvTotalDays.text = "${summary.totalDays}天"
             tvConsecutiveDays.text = "${summary.consecutiveDays}天"
             tvTotalCalories.text = "${summary.totalCalories}kcal"
-            tvAverageWeight.text = if (summary.averageWeight > 0) "${summary.averageWeight}斤" else "暂无数据"
-            tvAverageBodyFat.text = if (summary.averageBodyFat > 0) "${summary.averageBodyFat}%" else "暂无数据"
+            tvCurrentWeight.text = if (summary.currentWeight > 0) "${summary.currentWeight}斤" else "暂无数据"
+            tvCurrentBodyFat.text = if (summary.currentBodyFat > 0) "${summary.currentBodyFat}%" else "暂无数据"
+            tvTodayWaterIntake.text = "${summary.todayWaterIntake}ml"
         }
     }
     
@@ -350,7 +362,96 @@ class DataFragment : Fragment() {
         binding.chartBodyFat.visibility = View.GONE
         binding.chartTraining.visibility = View.VISIBLE
     }
-    
+
+    private fun handleExportEvent(event: com.vere.fit8.ui.viewmodel.ExportEvent) {
+        when (event) {
+            is com.vere.fit8.ui.viewmodel.ExportEvent.Success -> {
+                shareCSVData(event.csvContent)
+            }
+            is com.vere.fit8.ui.viewmodel.ExportEvent.ImageSuccess -> {
+                generateAndShareImage(event.summaryStats, event.recentRecords)
+            }
+            is com.vere.fit8.ui.viewmodel.ExportEvent.Error -> {
+                android.widget.Toast.makeText(requireContext(), event.message, android.widget.Toast.LENGTH_LONG).show()
+            }
+        }
+        viewModel.clearExportEvent()
+    }
+
+    private fun shareCSVData(csvContent: String) {
+        try {
+            // 创建临时文件
+            val fileName = "Fit8_数据导出_${java.time.LocalDate.now()}.csv"
+            val file = java.io.File(requireContext().cacheDir, fileName)
+            file.writeText(csvContent, Charsets.UTF_8)
+
+            // 创建分享Intent
+            val uri = androidx.core.content.FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                file
+            )
+
+            val shareIntent = android.content.Intent().apply {
+                action = android.content.Intent.ACTION_SEND
+                type = "text/csv"
+                putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                putExtra(android.content.Intent.EXTRA_SUBJECT, "Fit8 数据导出")
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            startActivity(android.content.Intent.createChooser(shareIntent, "导出数据"))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            android.widget.Toast.makeText(requireContext(), "导出失败：${e.message}", android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun generateAndShareImage(
+        summaryStats: com.vere.fit8.ui.viewmodel.SummaryStats,
+        recentRecords: List<com.vere.fit8.data.model.DailyRecord>
+    ) {
+        try {
+            // 生成图片
+            val imageGenerator = com.vere.fit8.utils.DataImageGenerator(requireContext())
+            val bitmap = imageGenerator.generateDataSummaryImage(summaryStats, recentRecords)
+
+            // 保存图片到临时文件
+            val fileName = "Fit8_数据报告_${java.time.LocalDate.now()}.jpg"
+            val file = java.io.File(requireContext().cacheDir, fileName)
+
+            val outputStream = java.io.FileOutputStream(file)
+            bitmap.compress(android.graphics.Bitmap.CompressFormat.JPEG, 90, outputStream)
+            outputStream.flush()
+            outputStream.close()
+
+            // 创建分享Intent
+            val uri = androidx.core.content.FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.fileprovider",
+                file
+            )
+
+            val shareIntent = android.content.Intent().apply {
+                action = android.content.Intent.ACTION_SEND
+                type = "image/jpeg"
+                putExtra(android.content.Intent.EXTRA_STREAM, uri)
+                putExtra(android.content.Intent.EXTRA_SUBJECT, "Fit8 健身数据报告")
+                putExtra(android.content.Intent.EXTRA_TEXT, "我的健身数据报告，由Fit8生成")
+                addFlags(android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+
+            startActivity(android.content.Intent.createChooser(shareIntent, "分享数据报告"))
+
+            android.widget.Toast.makeText(requireContext(), "数据报告图片已生成", android.widget.Toast.LENGTH_SHORT).show()
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            android.widget.Toast.makeText(requireContext(), "图片生成失败：${e.message}", android.widget.Toast.LENGTH_LONG).show()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

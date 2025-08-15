@@ -67,4 +67,20 @@ interface DailyRecordDao {
 
     @Query("SELECT AVG(bodyFat) FROM daily_records WHERE date BETWEEN :startDate AND :endDate AND bodyFat IS NOT NULL")
     suspend fun getAverageBodyFatBetweenDates(startDate: LocalDate, endDate: LocalDate): Float?
+
+    // 获取最新体重
+    @Query("SELECT weight FROM daily_records WHERE weight IS NOT NULL ORDER BY date DESC LIMIT 1")
+    suspend fun getLatestWeight(): Float?
+
+    // 获取最新体脂
+    @Query("SELECT bodyFat FROM daily_records WHERE bodyFat IS NOT NULL ORDER BY date DESC LIMIT 1")
+    suspend fun getLatestBodyFat(): Float?
+
+    // 获取指定日期的饮水量
+    @Query("SELECT waterMl FROM daily_records WHERE date = :date")
+    suspend fun getWaterIntakeByDate(date: LocalDate): Int?
+
+    // 获取所有记录（用于导出）
+    @Query("SELECT * FROM daily_records ORDER BY date DESC")
+    suspend fun getAllRecordsForExport(): List<DailyRecord>
 }

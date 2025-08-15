@@ -21,9 +21,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            debuggable true
+        }
+
         release {
+            // 暂时禁用代码混淆来测试
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // 使用debug签名配置（用于测试）
+            signingConfig signingConfigs.debug
+
+            // 优化配置
+            zipAlignEnabled true
+            debuggable false
         }
     }
     compileOptions {

@@ -18,6 +18,7 @@
 
     <!-- Primary Accent Color (Single accent) -->
     <color name="primary">#007AFF</color>
+    <color name="primary_light">#E3F2FD</color>
     <color name="primary_dark">#0056CC</color>
     <color name="primary_variant">#007AFF</color>
 
@@ -28,6 +29,8 @@
 
     <!-- Background System -->
     <color name="background">#FFFFFF</color>
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#F5F5F5</color>
     <color name="background_dark">#000000</color>
     <color name="surface">#FFFFFF</color>
     <color name="surface_dark">#000000</color>
